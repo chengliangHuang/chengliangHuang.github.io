@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="利用java8新特性，可以用简洁高效的代码来实现一些数据处理。 定义1个Apple对象： 123456789101112131415public class Apple &amp;#123;        private Integer id;    private String name;    private BigDecimal money;    private Integer num;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8 实现List转map 、分组、过滤">
+<meta property="og:url" content="http://yoursite.com/2020/11/10/Java8-%E5%AE%9E%E7%8E%B0List%E8%BD%ACmap-%E3%80%81%E5%88%86%E7%BB%84%E3%80%81%E8%BF%87%E6%BB%A4/index.html">
+<meta property="og:site_name" content="QWHS">
+<meta property="og:description" content="利用java8新特性，可以用简洁高效的代码来实现一些数据处理。 定义1个Apple对象： 123456789101112131415public class Apple &amp;#123;        private Integer id;    private String name;    private BigDecimal money;    private Integer num;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-10T02:40:12.000Z">
+<meta property="article:modified_time" content="2020-11-10T03:05:40.824Z">
+<meta property="article:author" content="宁中老程">
+<meta property="article:tag" content="simple">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/10/Java8-%E5%AE%9E%E7%8E%B0List%E8%BD%ACmap-%E3%80%81%E5%88%86%E7%BB%84%E3%80%81%E8%BF%87%E6%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java8 实现List转map 、分组、过滤 | QWHS</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">QWHS</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">纸上得来终觉浅</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/10/Java8-%E5%AE%9E%E7%8E%B0List%E8%BD%ACmap-%E3%80%81%E5%88%86%E7%BB%84%E3%80%81%E8%BF%87%E6%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="宁中老程">
+      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QWHS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java8 实现List转map 、分组、过滤
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-10 10:40:12 / 修改时间：11:05:40" itemprop="dateCreated datePublished" datetime="2020-11-10T10:40:12+08:00">2020-11-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java8/" itemprop="url" rel="index"><span itemprop="name">Java8</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>利用java8新特性，可以用简洁高效的代码来实现一些数据处理。</p>
+<p>定义1个Apple对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> BigDecimal money;</span><br><span class="line">    <span class="keyword">private</span> Integer num;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Apple</span><span class="params">(Integer id, String name, BigDecimal money, Integer num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.money = money;</span><br><span class="line">        <span class="keyword">this</span>.num = num;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加一些测试数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; appleList = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//存放apple对象集合</span></span><br><span class="line"> </span><br><span class="line">Apple apple1 =  <span class="keyword">new</span> Apple(<span class="number">1</span>,<span class="string">"苹果1"</span>,<span class="keyword">new</span> BigDecimal(<span class="string">"3.25"</span>),<span class="number">10</span>);</span><br><span class="line">Apple apple12 = <span class="keyword">new</span> Apple(<span class="number">1</span>,<span class="string">"苹果2"</span>,<span class="keyword">new</span> BigDecimal(<span class="string">"1.35"</span>),<span class="number">20</span>);</span><br><span class="line">Apple apple2 =  <span class="keyword">new</span> Apple(<span class="number">2</span>,<span class="string">"香蕉"</span>,<span class="keyword">new</span> BigDecimal(<span class="string">"2.89"</span>),<span class="number">30</span>);</span><br><span class="line">Apple apple3 =  <span class="keyword">new</span> Apple(<span class="number">3</span>,<span class="string">"荔枝"</span>,<span class="keyword">new</span> BigDecimal(<span class="string">"9.99"</span>),<span class="number">40</span>);</span><br><span class="line"> </span><br><span class="line">appleList.add(apple1);</span><br><span class="line">appleList.add(apple12);</span><br><span class="line">appleList.add(apple2);</span><br><span class="line">appleList.add(apple3);</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-分组"><a href="#1-分组" class="headerlink" title="1.分组"></a>1.分组</h2><p>List里面的对象元素，以某个属性来分组，例如，以id分组，将id相同的放在一起：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List 以ID分组 Map&lt;Integer,List&lt;Apple&gt;&gt;</span></span><br><span class="line">Map&lt;Integer, List&lt;Apple&gt;&gt; groupBy = appleList.stream().collect(Collectors.groupingBy(Apple::getId));</span><br><span class="line"> </span><br><span class="line">System.err.println(<span class="string">"groupBy:"</span>+groupBy);</span><br><span class="line">&#123;<span class="number">1</span>=[Apple&#123;id=<span class="number">1</span>, name=<span class="string">'苹果1'</span>, money=<span class="number">3.25</span>, num=<span class="number">10</span>&#125;, Apple&#123;id=<span class="number">1</span>, name=<span class="string">'苹果2'</span>, money=<span class="number">1.35</span>, num=<span class="number">20</span>&#125;], <span class="number">2</span>=[Apple&#123;id=<span class="number">2</span>, name=<span class="string">'香蕉'</span>, money=<span class="number">2.89</span>, num=<span class="number">30</span>&#125;], <span class="number">3</span>=[Apple&#123;id=<span class="number">3</span>, name=<span class="string">'荔枝'</span>, money=<span class="number">9.99</span>, num=<span class="number">40</span>&#125;]&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、List转Map"><a href="#2、List转Map" class="headerlink" title="2、List转Map"></a>2、List转Map</h2><p>id为key，apple对象为value，可以这么做：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * List -&gt; Map</span></span><br><span class="line"><span class="comment"> * 需要注意的是：</span></span><br><span class="line"><span class="comment"> * toMap 如果集合对象有重复的key，会报错Duplicate key ....</span></span><br><span class="line"><span class="comment"> *  apple1,apple12的id都为1。</span></span><br><span class="line"><span class="comment"> *  可以用 (k1,k2)-&gt;k1 来设置，如果有重复的key,则保留key1,舍弃key2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Map&lt;Integer, Apple&gt; appleMap = appleList.stream().collect(Collectors.toMap(Apple::getId, a -&gt; a,(k1,k2)-&gt;k1));</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、过滤Filter"><a href="#3、过滤Filter" class="headerlink" title="3、过滤Filter"></a>3、过滤Filter</h2><p>从集合中过滤出来符合条件的元素：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//过滤出符合条件的数据</span></span><br><span class="line">List&lt;Apple&gt; filterList = appleList.stream().filter(a -&gt; a.getName().equals(<span class="string">"香蕉"</span>)).collect(Collectors.toList());</span><br><span class="line"> </span><br><span class="line">System.err.println(<span class="string">"filterList:"</span>+filterList);</span><br><span class="line">[Apple&#123;id=<span class="number">2</span>, name=<span class="string">'香蕉'</span>, money=<span class="number">2.89</span>, num=<span class="number">30</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、求和"><a href="#4、求和" class="headerlink" title="4、求和"></a>4、求和</h2><p>将集合中的数据按照某个属性求和:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算 总金额</span></span><br><span class="line">BigDecimal totalMoney = appleList.stream().map(Apple::getMoney).reduce(BigDecimal.ZERO, BigDecimal::add);</span><br><span class="line">System.err.println(<span class="string">"totalMoney:"</span>+totalMoney);  <span class="comment">//totalMoney:17.48</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5、查找流中最大-最小值"><a href="#5、查找流中最大-最小值" class="headerlink" title="5、查找流中最大 最小值"></a>5、查找流中最大 最小值</h2><p>Collectors.maxBy 和 Collectors.minBy 来计算流中的最大或最小值:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;Dish&gt; maxDish = Dish.menu.stream().collect(Collectors.maxBy(Comparator.comparing(Dish::getCalories)));</span><br><span class="line">maxDish.ifPresent(System.out::println);</span><br><span class="line"> </span><br><span class="line">Optional&lt;Dish&gt; minDish = Dish.menu.stream().collect(Collectors.minBy(Comparator.comparing(Dish::getCalories)));</span><br><span class="line">minDish.ifPresent(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<h2 id="6、去重"><a href="#6、去重" class="headerlink" title="6、去重"></a>6、去重</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.Comparator.comparingLong;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.stream.Collectors.collectingAndThen;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.stream.Collectors.toCollection;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 根据id去重</span></span><br><span class="line">     List&lt;Person&gt; unique = appleList.stream().collect(</span><br><span class="line">                collectingAndThen(</span><br><span class="line">                        toCollection(() -&gt; <span class="keyword">new</span> TreeSet&lt;&gt;(comparingLong(Apple::getId))), ArrayList::<span class="keyword">new</span>)</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/simple/" rel="tag"># simple</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/09/Linux%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%9D%82%E9%A1%B9/" rel="prev" title="Linux实用命令及杂项">
+      <i class="fa fa-chevron-left"></i> Linux实用命令及杂项
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-分组"><span class="nav-number">1.</span> <span class="nav-text">1.分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、List转Map"><span class="nav-number">2.</span> <span class="nav-text">2、List转Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、过滤Filter"><span class="nav-number">3.</span> <span class="nav-text">3、过滤Filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、求和"><span class="nav-number">4.</span> <span class="nav-text">4、求和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、查找流中最大-最小值"><span class="nav-number">5.</span> <span class="nav-text">5、查找流中最大 最小值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、去重"><span class="nav-number">6.</span> <span class="nav-text">6、去重</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">宁中老程</p>
+  <div class="site-description" itemprop="description">CV工程师，面向搜索引擎编程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宁中老程</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
