@@ -20,34 +20,40 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="java的代理就是客户类不再直接与委托类直接打打交道，而是通过一个中间层进行访问，这个中间层就是代理，优势: 1.隐藏委托类 2.代码解耦 代理主要分为静态代理、jdk动态代理、和CGLIB 动态代理，各有优缺点，没有最好的，存在即合理。 1 计算器接口需求例如我们有一个实现计算器的接口: 1234567891011121314151617181920212223242526272829publi">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用jdk实现动态代理">
-<meta property="og:url" content="http://yoursite.com/2020/06/07/%E4%BD%BF%E7%94%A8jdk%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/index.html">
+  <meta name="description" content="CV工程师，面向搜索引擎编程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="QWHS">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="QWHS">
-<meta property="og:description" content="java的代理就是客户类不再直接与委托类直接打打交道，而是通过一个中间层进行访问，这个中间层就是代理，优势: 1.隐藏委托类 2.代码解耦 代理主要分为静态代理、jdk动态代理、和CGLIB 动态代理，各有优缺点，没有最好的，存在即合理。 1 计算器接口需求例如我们有一个实现计算器的接口: 1234567891011121314151617181920212223242526272829publi">
+<meta property="og:description" content="CV工程师，面向搜索引擎编程">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-07T05:21:02.000Z">
-<meta property="article:modified_time" content="2020-06-07T07:27:25.047Z">
 <meta property="article:author" content="宁中老程">
-<meta property="article:tag" content="simple">
-<meta property="article:tag" content="动态代理">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="开发者">
+<meta property="article:tag" content="程序猿">
+<meta property="article:tag" content="程序媛">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="代码">
+<meta property="article:tag" content="开源">
+<meta property="article:tag" content="IT网站">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/07/%E4%BD%BF%E7%94%A8jdk%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+<link rel="canonical" href="http://yoursite.com/page/4/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
+    isHome : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>使用jdk实现动态代理 | QWHS</title>
+  <title>QWHS</title>
   
 
 
@@ -156,10 +162,9 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content index posts-expand">
             
-
-    
+      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -175,9 +180,10 @@
       <meta itemprop="name" content="QWHS">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          使用jdk实现动态代理
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/07/%E4%BD%BF%E7%94%A8jdk%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" class="post-title-link" itemprop="url">使用jdk实现动态代理</a>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -210,7 +216,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>java的代理就是客户类不再直接与委托类直接打打交道，而是通过一个中间层进行访问，这个中间层就是代理，优势:</p>
+          <p>java的代理就是客户类不再直接与委托类直接打打交道，而是通过一个中间层进行访问，这个中间层就是代理，优势:</p>
 <p>1.隐藏委托类</p>
 <p>2.代码解耦</p>
 <p>代理主要分为静态代理、jdk动态代理、和CGLIB 动态代理，各有优缺点，没有最好的，存在即合理。</p>
@@ -236,35 +242,25 @@
 <p><strong>计算器[sub]方法开始执行,参数为[1, 2]</strong></br><br><strong>方法[sub]计算完毕,结果为3</strong></br><br><strong>计算器[less]方法开始执行,参数为[6, 2]</strong></br><br><strong>方法[less]计算完毕,结果为4</strong></br><br><strong>计算器[multiply]方法开始执行,参数为[4, 4]</strong></br><br><strong>方法[multiply]计算完毕,结果为16</strong></br><br><strong>计算器[except]方法开始执行,参数为[18, 2]</strong></br><br><strong>方法[except]计算完毕,结果为9</strong></br></p>
 <p>至此我们完成了动态代理，实现需求。</p>
 
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/simple/" rel="tag"># simple</a>
-              <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" rel="tag"># 动态代理</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item"></div>
-      <div class="post-nav-item">
-    <a href="/2020/06/07/Hexo%E5%85%8D%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%E9%83%A8%E7%BD%B2%E5%88%B0github/" rel="next" title="Hexo免输入密码部署到github">
-      Hexo免输入密码部署到github <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
 
 
 
@@ -316,7 +312,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-计算器接口需求"><span class="nav-number">1.</span> <span class="nav-text">1 计算器接口需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-使用jdk动态代理实现无入侵日志打印"><span class="nav-number">2.</span> <span class="nav-text">2 使用jdk动态代理实现无入侵日志打印</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
