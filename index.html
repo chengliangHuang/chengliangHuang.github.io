@@ -191,10 +191,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-07-21 16:00:02 / 修改时间：16:59:41" itemprop="dateCreated datePublished" datetime="2021-07-21T16:00:02+08:00">2021-07-21</time>
+              <time title="创建时间：2021-07-21 16:00:02" itemprop="dateCreated datePublished" datetime="2021-07-21T16:00:02+08:00">2021-07-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-22 09:35:48" itemprop="dateModified" datetime="2021-07-22T09:35:48+08:00">2021-07-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -240,14 +246,14 @@
 <p><code>悲观锁</code>对应于生活中悲观的人，悲观的人总是想着事情往坏的方向发展。</p>
 <p>举个生活中的例子，假设厕所只有一个坑位了，悲观锁上厕所会第一时间把门反锁上，这样其他人上厕所只能在门外等候，这种状态就是「阻塞」了。</p>
 <p>回到代码世界中，一个共享数据加了悲观锁，那线程每次想操作这个数据前都会假设其他线程也可能会操作这个数据，所以每次操作前都会上锁，这样其他线程想操作这个数据拿不到锁只能阻塞了。</p>
-<img src="./图解Java中那18-把锁/悲观锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E6%82%B2%E8%A7%82%E9%94%81.png" class="" title="悲观锁">
 
 <p>在 Java 语言中 <code>synchronized</code> 和 <code>ReentrantLock</code>等就是典型的悲观锁，还有一些使用了 synchronized 关键字的容器类如 <code>HashTable</code> 等也是悲观锁的应用。</p>
 <p><strong>乐观锁</strong></p>
 <p><code>乐观锁</code> 对应于生活中乐观的人，乐观的人总是想着事情往好的方向发展。</p>
 <p>举个生活中的例子，假设厕所只有一个坑位了，乐观锁认为：这荒郊野外的，又没有什么人，不会有人抢我坑位的，每次关门上锁多浪费时间，还是不加锁好了。你看乐观锁就是天生乐观！</p>
 <p>回到代码世界中，乐观锁操作数据时不会上锁，在更新的时候会判断一下在此期间是否有其他线程去更新这个数据。</p>
-<img src="./图解Java中那18-把锁/乐观锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E4%B9%90%E8%A7%82%E9%94%81.png" class="" title="乐观锁">
 
 <p>乐观锁可以使用<code>版本号机制</code>和<code>CAS算法</code>实现。在 Java 语言中 <code>java.util.concurrent.atomic</code>包下的原子类就是使用CAS 乐观锁实现的。</p>
 <p><strong>两种锁的使用场景</strong></p>
@@ -258,26 +264,26 @@
 
 <p><strong>独占锁</strong></p>
 <p><code>独占锁</code>是指锁一次只能被一个线程所持有。如果一个线程对数据加上排他锁后，那么其他线程不能再对该数据加任何类型的锁。获得独占锁的线程即能读数据又能修改数据。</p>
-<img src="./图解Java中那18-把锁/独占锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E7%8B%AC%E5%8D%A0%E9%94%81.png" class="" title="独占锁">
 
 <p>JDK中的<code>synchronized</code>和<code>java.util.concurrent(JUC)</code>包中Lock的实现类就是独占锁。</p>
 <p><strong>共享锁</strong></p>
 <p><code>共享锁</code>是指锁可被多个线程所持有。如果一个线程对数据加上共享锁后，那么其他线程只能对数据再加共享锁，不能加独占锁。获得共享锁的线程只能读数据，不能修改数据。</p>
-<img src="./图解Java中那18-把锁/共享锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E5%85%B1%E4%BA%AB%E9%94%81.png" class="" title="共享锁">
 
 <p>在 JDK 中 <code>ReentrantReadWriteLock</code> 就是一种共享锁。</p>
 <center><font color="#4590a3" size="5px">互斥锁和读写锁</font></center>
 
 <p><strong>互斥锁</strong></p>
 <p><code>互斥锁</code>是独占锁的一种常规实现，是指某一资源同时只允许一个访问者对其进行访问，具有唯一性和排它性。</p>
-<img src="./图解Java中那18-把锁/互斥锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E4%BA%92%E6%96%A5%E9%94%81.png" class="" title="互斥锁">
 
 <p>互斥锁一次只能一个线程拥有互斥锁，其他线程只有等待。</p>
 <p><strong>读写锁</strong></p>
 <p><code>读写锁</code>是共享锁的一种具体实现。读写锁管理一组锁，一个是只读的锁，一个是写锁。</p>
 <p>读锁可以在没有写锁的时候被多个线程同时持有，而写锁是独占的。写锁的优先级要高于读锁，一个获得了读锁的线程必须能看到前一个释放的写锁所更新的内容。</p>
 <p>读写锁相比于互斥锁并发程度更高，每次只有一个写线程，但是同时可以有多个线程并发读。</p>
-<img src="./图解Java中那18-把锁/读写锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E8%AF%BB%E5%86%99%E9%94%81.png" class="" title="读写锁">
 
 <p>在 JDK 中定义了一个读写锁的接口：<code>ReadWriteLock</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取读锁</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取写锁</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -287,14 +293,14 @@
 
 <p><strong>公平锁</strong></p>
 <p><code>公平锁</code>是指多个线程按照申请锁的顺序来获取锁，这里类似排队买票，先来的人先买，后来的人在队尾排着，这是公平的。</p>
-<img src="./图解Java中那18-把锁/公平锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E5%85%AC%E5%B9%B3%E9%94%81.png" class="" title="公平锁">
 
 <p>在 java 中可以通过构造函数初始化公平锁</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 创建一个可重入锁，true 表示公平锁，false 表示非公平锁。默认非公平锁</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Lock lock = <span class="keyword">new</span> ReentrantLock(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 
 <p><strong>非公平锁</strong></p>
 <p><code>非公平锁</code>是指多个线程获取锁的顺序并不是按照申请锁的顺序，有可能后申请的线程比先申请的线程优先获取锁，在高并发环境下，有可能造成优先级翻转，或者饥饿的状态（某个线程一直得不到锁）。</p>
-<img src="./图解Java中那18-把锁/非公平锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81.png" class="" title="非公平锁">
 
 <p>在 java 中 synchronized 关键字是非公平锁，ReentrantLock默认也是非公平锁。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 创建一个可重入锁，true 表示公平锁，false 表示非公平锁。默认非公平锁</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Lock lock = <span class="keyword">new</span> ReentrantLock(<span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
@@ -302,7 +308,7 @@
 <center><font color="#4590a3" size="5px">可重入锁</font></center>
 
 <p><code>可重入锁</code>又称之为<code>递归锁</code>，是指同一个线程在外层方法获取了锁，在进入内层方法会自动获取锁。</p>
-<img src="./图解Java中那18-把锁/可重入锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81.png" class="" title="可重入锁">
 
 <p>对于Java ReentrantLock而言, 他的名字就可以看出是一个可重入锁。对于Synchronized而言，也是一个可重入锁。</p>
 <p>敲黑板：可重入锁的一个好处是可一定程度避免死锁。</p>
@@ -313,7 +319,7 @@
 <center><font color="#4590a3" size="5px">自旋锁</font></center>
 
 <p><code>自旋锁</code>是指线程在没有获得锁时不是被直接挂起，而是执行一个忙循环，这个忙循环就是所谓的自旋。</p>
-<img src="./图解Java中那18-把锁/自旋锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E8%87%AA%E6%97%8B%E9%94%81.png" class="" title="自旋锁">
 
 <p>自旋锁的目的是为了减少线程被挂起的几率，因为线程的挂起和唤醒也都是耗资源的操作。</p>
 <p>如果锁被另一个线程占用的时间比较长，即使自旋了之后当前线程还是会被挂起，忙循环就会变成浪费系统资源的操作，反而降低了整体性能。因此自旋锁是不适应锁占用时间长的并发情况的。</p>
@@ -327,7 +333,7 @@
 
 <p><code>分段锁</code> 是一种锁的设计，并不是具体的一种锁。</p>
 <p>分段锁设计目的是将锁的粒度进一步细化，当操作不需要更新整个数组的时候，就仅仅针对数组中的一项进行加锁操作。</p>
-<img src="./图解Java中那18-把锁/分段锁.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E5%88%86%E6%AE%B5%E9%94%81.png" class="" title="分段锁">
 
 <p>在 Java 语言中 CurrentHashMap 底层就用了分段锁，使用Segment，就可以进行并发使用了。</p>
 <center><font color="blue" size="5px">锁升级（无锁|偏向锁|轻量级锁|重量级锁）</font></center>
@@ -367,7 +373,7 @@
 <center><font color="red" size="5px">一张图总结</font></center>
 
 <p>前面讲了 Java 语言中各种各种的锁，最后再通过六个问题统一总结一下：</p>
-<img src="./图解Java中那18-把锁/总结.png" style="zoom:80%;" />
+<img src="/2021/07/21/%E5%9B%BE%E8%A7%A3Java%E4%B8%AD%E9%82%A318-%E6%8A%8A%E9%94%81/%E6%80%BB%E7%BB%93.png" class="" title="总结">
 
 <center>-- End --</center>
       
