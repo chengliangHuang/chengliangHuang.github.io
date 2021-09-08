@@ -20,40 +20,35 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="CV工程师，面向搜索引擎编程">
-<meta property="og:type" content="website">
-<meta property="og:title" content="QWHS">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="九大组件SpringMVC几乎所有的功能都由九大组件来完成，所以明白九大组件的作用，对于学习SpringMVC来说非常重要。 1234567891011121314151617181920212223242526&#x2F;** 文件上传解析器 *&#x2F;private MultipartResolver multipartResolver;&#x2F;** 区域解析器，用于国际化 *&#x2F;private LocaleReso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring MVC 请求处理过程">
+<meta property="og:url" content="http://yoursite.com/2021/09/08/Spring-MVC-%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="QWHS">
-<meta property="og:description" content="CV工程师，面向搜索引擎编程">
+<meta property="og:description" content="九大组件SpringMVC几乎所有的功能都由九大组件来完成，所以明白九大组件的作用，对于学习SpringMVC来说非常重要。 1234567891011121314151617181920212223242526&#x2F;** 文件上传解析器 *&#x2F;private MultipartResolver multipartResolver;&#x2F;** 区域解析器，用于国际化 *&#x2F;private LocaleReso">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2021/09/08/Spring-MVC-%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/Dispatcher.jpg">
+<meta property="article:published_time" content="2021-09-08T08:03:11.000Z">
+<meta property="article:modified_time" content="2021-09-08T08:43:02.455Z">
 <meta property="article:author" content="宁中老程">
-<meta property="article:tag" content="java">
-<meta property="article:tag" content="web">
-<meta property="article:tag" content="编程">
-<meta property="article:tag" content="开发者">
-<meta property="article:tag" content="程序猿">
-<meta property="article:tag" content="程序媛">
-<meta property="article:tag" content="编程">
-<meta property="article:tag" content="代码">
-<meta property="article:tag" content="开源">
-<meta property="article:tag" content="IT网站">
+<meta property="article:tag" content="mvc&quot;">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/09/08/Spring-MVC-%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/Dispatcher.jpg">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2021/09/08/Spring-MVC-%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>QWHS</title>
+  <title>Spring MVC 请求处理过程 | QWHS</title>
   
 
 
@@ -162,9 +157,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -180,10 +176,9 @@
       <meta itemprop="name" content="QWHS">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/08/Spring-MVC-%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">Spring MVC 请求处理过程</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Spring MVC 请求处理过程
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -224,7 +219,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="九大组件"><a href="#九大组件" class="headerlink" title="九大组件"></a><strong>九大组件</strong></h2><p>SpringMVC几乎所有的功能都由九大组件来完成，所以明白九大组件的作用，对于学习SpringMVC来说非常重要。</p>
+        <h2 id="九大组件"><a href="#九大组件" class="headerlink" title="九大组件"></a><strong>九大组件</strong></h2><p>SpringMVC几乎所有的功能都由九大组件来完成，所以明白九大组件的作用，对于学习SpringMVC来说非常重要。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 文件上传解析器 */</span></span><br><span class="line"><span class="keyword">private</span> MultipartResolver multipartResolver;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 区域解析器，用于国际化 */</span></span><br><span class="line"><span class="keyword">private</span> LocaleResolver localeResolver;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 主题解析器 */</span></span><br><span class="line"><span class="keyword">private</span> ThemeResolver themeResolver;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Handler映射信息 */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;HandlerMapping&gt; handlerMappings;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Handler适配器*/</span></span><br><span class="line"><span class="keyword">private</span> List&lt;HandlerAdapter&gt; handlerAdapters;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Handler执行异常解析器 */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;HandlerExceptionResolver&gt; handlerExceptionResolvers;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 请求到视图的转换器 */</span></span><br><span class="line"><span class="keyword">private</span> RequestToViewNameTranslator viewNameTranslator;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** SpringMVC允许重定向时携带参数，存在session中，用完就销毁，所以叫FlashMap */</span></span><br><span class="line"><span class="keyword">private</span> FlashMapManager flashMapManager;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 视图解析器 */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;ViewResolver&gt; viewResolvers;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -356,323 +351,34 @@
 <p>继续深入<code>writeWithMessageConverters</code>方法，一步步调试到最后，底层就是利用<code>java.io.OutputStreamWriter</code>类把返回值写到网络IO</p>
 <p>由于<code>handleReturnValue</code>把<code>requestHandled</code>设置成了<code>true</code>，上层在调用<code>getModelAndView</code>方法时会返回<code>null</code>，表示该请求不需要视图。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/mvc/" rel="tag"># mvc"</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/10/16-%E6%9D%A1-yyds-%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/pao.gif">
-      <meta itemprop="name" content="宁中老程">
-      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QWHS">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/16-%E6%9D%A1-yyds-%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">16 条 yyds 的代码规范</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-08-10 16:22:09 / 修改时间：16:45:53" itemprop="dateCreated datePublished" datetime="2021-08-10T16:22:09+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MyBatis-不要为了多个查询条件而写-1-1"><a href="#MyBatis-不要为了多个查询条件而写-1-1" class="headerlink" title="MyBatis 不要为了多个查询条件而写 1 = 1"></a>MyBatis 不要为了多个查询条件而写 1 = 1</h2><blockquote>
-<p>当遇到多个查询条件，使用where 1=1 可以很方便的解决我们的问题，但是这样很可能会造成非常大的性能损失，因为添加了 “where 1=1 ”的过滤条件之后，数据库系统就无法使用索引等查询优化策略，数据库系统将会被迫对每行数据进行扫描（即全表扫描） 以比较此行是否满足过滤条件，当表中的数据量较大时查询速度会非常慢；此外，还会存在SQL 注入的风险。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryBookInfo"</span> <span class="attr">parameterType</span>=<span class="string">"com.tjt.platform.entity.BookInfo"</span> <span class="attr">resultType</span>=<span class="string">"java.lang.Integer"</span>&gt;</span></span><br><span class="line"> select count(*) from t_rule_BookInfo t where 1=1</span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title !=null and title !='' "</span>&gt;</span></span><br><span class="line"> AND title = #&#123;title&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"author !=null and author !='' "</span>&gt;</span></span><br><span class="line"> AND author = #&#123;author&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryBookInfo"</span> <span class="attr">parameterType</span>=<span class="string">"com.tjt.platform.entity.BookInfo"</span> <span class="attr">resultType</span>=<span class="string">"java.lang.Integer"</span>&gt;</span></span><br><span class="line"> select count(*) from t_rule_BookInfo t</span><br><span class="line"><span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title !=null and title !='' "</span>&gt;</span></span><br><span class="line"> title = #&#123;title&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"author !=null and author !='' "</span>&gt;</span></span><br><span class="line"> AND author = #&#123;author&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>UPDATE 操作也一样，可以用标记代替 1=1。</p>
-<h2 id="迭代entrySet-获取Map-的key-和value"><a href="#迭代entrySet-获取Map-的key-和value" class="headerlink" title="迭代entrySet() 获取Map 的key 和value"></a>迭代entrySet() 获取Map 的key 和value</h2><blockquote>
-<p>当循环中只需要获取Map 的主键key时，迭代keySet() 是正确的；但是，当需要主键key 和取值value 时，迭代entrySet() 才是更高效的做法，其比先迭代keySet() 后再去通过get 取值性能更佳。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Map 获取value 反例:</span></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (String key : map.keySet())&#123;</span><br><span class="line">    String value = map.get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Map 获取key &amp; value 正例:</span></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String,String&gt; entry : map.entrySet())&#123;</span><br><span class="line"> String key = entry.getKey();</span><br><span class="line"> String value = entry.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用Collection-isEmpty-检测空"><a href="#使用Collection-isEmpty-检测空" class="headerlink" title="使用Collection.isEmpty() 检测空"></a>使用Collection.isEmpty() 检测空</h2><blockquote>
-<p>使用Collection.size() 来检测是否为空在逻辑上没有问题，但是使用Collection.isEmpty() 使得代码更易读，并且可以获得更好的性能；除此之外，任何Collection.isEmpty() 实现的时间复杂度都是O(1) ，不需要多次循环遍历，但是某些通过Collection.size() 方法实现的时间复杂度可能是O(n)，或者使用第三方工具类如：Hutool 提供的集合检查工具。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LinkedList&lt;Object&gt; collection = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"><span class="keyword">if</span> (collection.size() == <span class="number">0</span>)&#123;</span><br><span class="line"> System.out.println(<span class="string">"collection is empty."</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LinkedList&lt;Object&gt; collection = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"><span class="keyword">if</span> (collection.isEmpty())&#123;</span><br><span class="line">    System.out.println(<span class="string">"collection is empty."</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//检测是否为null 可以使用CollectionUtils.isEmpty()</span></span><br><span class="line"><span class="keyword">if</span> (CollectionUtils.isEmpty(collection))&#123;</span><br><span class="line">    System.out.println(<span class="string">"collection is null."</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="初始化集合时尽量指定其大小"><a href="#初始化集合时尽量指定其大小" class="headerlink" title="初始化集合时尽量指定其大小"></a>初始化集合时尽量指定其大小</h2><blockquote>
-<p>尽量在初始化时指定集合的大小，能有效减少集合的扩容次数，因为集合每次扩容的时间复杂度很可能时O(n)，耗费时间和性能。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化list，往list 中添加元素反例：</span></span><br><span class="line"><span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i : arr)&#123;</span><br><span class="line"> list.add(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化list，往list 中添加元素正例：</span></span><br><span class="line"><span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="comment">//指定集合list 的容量大小</span></span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(arr.length);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i : arr)&#123;</span><br><span class="line">    list.add(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用StringBuilder-拼接字符串"><a href="#使用StringBuilder-拼接字符串" class="headerlink" title="使用StringBuilder 拼接字符串"></a>使用StringBuilder 拼接字符串</h2><blockquote>
-<p>一般的字符串拼接在编译期Java 会对其进行优化，但是在循环中字符串的拼接Java 编译期无法执行优化，所以需要使用StringBuilder 进行替换。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在循环中拼接字符串反例</span></span><br><span class="line">String str = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">    <span class="comment">//在循环中字符串拼接Java 不会对其进行优化</span></span><br><span class="line">    str += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在循环中拼接字符串正例</span></span><br><span class="line">String str1 = <span class="string">"Love"</span>;</span><br><span class="line">String str2 = <span class="string">"Courage"</span>;</span><br><span class="line">String strConcat = str1 + str2;  <span class="comment">//Java 编译器会对该普通模式的字符串拼接进行优化</span></span><br><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">   <span class="comment">//在循环中，Java 编译器无法进行优化，所以要手动使用StringBuilder</span></span><br><span class="line">    sb.append(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="若需频繁调用Collection-contains-方法则使用Set"><a href="#若需频繁调用Collection-contains-方法则使用Set" class="headerlink" title="若需频繁调用Collection.contains 方法则使用Set"></a>若需频繁调用Collection.contains 方法则使用Set</h2><blockquote>
-<p>在Java 集合类库中，List的contains 方法普遍时间复杂度为O(n)，若代码中需要频繁调用contains 方法查找数据则先将集合list 转换成HashSet 实现，将O(n) 的时间复杂度将为O(1)。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//频繁调用Collection.contains() 反例</span></span><br><span class="line">List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= Integer.MAX_VALUE; i++)&#123;</span><br><span class="line">    <span class="comment">//时间复杂度为O(n)</span></span><br><span class="line">    <span class="keyword">if</span> (list.contains(i))</span><br><span class="line">    System.out.println(<span class="string">"list contains "</span>+ i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//频繁调用Collection.contains() 正例</span></span><br><span class="line">List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Set&lt;Object&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= Integer.MAX_VALUE; i++)&#123;</span><br><span class="line">    <span class="comment">//时间复杂度为O(1)</span></span><br><span class="line">    <span class="keyword">if</span> (set.contains(i))&#123;</span><br><span class="line">        System.out.println(<span class="string">"list contains "</span>+ i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用静态代码块实现赋值静态成员变量"><a href="#使用静态代码块实现赋值静态成员变量" class="headerlink" title="使用静态代码块实现赋值静态成员变量"></a>使用静态代码块实现赋值静态成员变量</h2><blockquote>
-<p>对于集合类型的静态成员变量，应该使用静态代码块赋值，而不是使用集合实现来赋值。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//赋值静态成员变量反例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;()&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        map.put(<span class="string">"Leo"</span>,<span class="number">1</span>);</span><br><span class="line">        map.put(<span class="string">"Family-loving"</span>,<span class="number">2</span>);</span><br><span class="line">        map.put(<span class="string">"Cold on the out side passionate on the inside"</span>,<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;()&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        list.add(<span class="string">"Sagittarius"</span>);</span><br><span class="line">        list.add(<span class="string">"Charming"</span>);</span><br><span class="line">        list.add(<span class="string">"Perfectionist"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//赋值静态成员变量正例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    map.put(<span class="string">"Leo"</span>,<span class="number">1</span>);</span><br><span class="line">    map.put(<span class="string">"Family-loving"</span>,<span class="number">2</span>);</span><br><span class="line">    map.put(<span class="string">"Cold on the out side passionate on the inside"</span>,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    list.add(<span class="string">"Sagittarius"</span>);</span><br><span class="line">    list.add(<span class="string">"Charming"</span>);</span><br><span class="line">    list.add(<span class="string">"Perfectionist"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。"><a href="#删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。" class="headerlink" title="删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。"></a>删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。</h2><h2 id="工具类中屏蔽构造函数"><a href="#工具类中屏蔽构造函数" class="headerlink" title="工具类中屏蔽构造函数"></a>工具类中屏蔽构造函数</h2><blockquote>
-<p>工具类是一堆静态字段和函数的集合，其不应该被实例化；但是，Java 为每个没有明确定义构造函数的类添加了一个隐式公有构造函数，为了避免不必要的实例化，应该显式定义私有构造函数来屏蔽这个隐式公有构造函数。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line"><span class="comment">//工具类构造函数反例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line"><span class="comment">//工具类构造函数正例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义私有构造函数来屏蔽这个隐式公有构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">PasswordUtils</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除多余的异常捕获并抛出"><a href="#删除多余的异常捕获并抛出" class="headerlink" title="删除多余的异常捕获并抛出"></a>删除多余的异常捕获并抛出</h2><blockquote>
-<p>用catch 语句捕获异常后，若什么也不进行处理，就只是让异常重新抛出，这跟不捕获异常的效果一样，可以删除这块代码或添加别的处理。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//多余异常反例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> (BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">        String line;</span><br><span class="line">        StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            builder.append(line);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> builder.toString();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">//仅仅是重复抛异常 未作任何处理</span></span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//多余异常正例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> (BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">        String line;</span><br><span class="line">        StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            builder.append(line);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> builder.toString();</span><br><span class="line">        <span class="comment">//删除多余的抛异常，或增加其他处理：</span></span><br><span class="line">        <span class="comment">/*catch (Exception e) &#123;</span></span><br><span class="line"><span class="comment">            return "fileReader exception";</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="字符串转化使用String-valueOf-value-代替-“-“-value"><a href="#字符串转化使用String-valueOf-value-代替-“-“-value" class="headerlink" title="字符串转化使用String.valueOf(value) 代替 “ “ + value"></a>字符串转化使用String.valueOf(value) 代替 “ “ + value</h2><blockquote>
-<p>把其它对象或类型转化为字符串时，使用String.valueOf(value) 比 “”+value 的效率更高。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把其它对象或类型转化为字符串反例：</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">520</span>;</span><br><span class="line"><span class="comment">// "" + value</span></span><br><span class="line">String strLove = <span class="string">""</span> + num;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把其它对象或类型转化为字符串正例：</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">520</span>;</span><br><span class="line"><span class="comment">// String.valueOf() 效率更高</span></span><br><span class="line">String strLove = String.valueOf(num);</span><br></pre></td></tr></table></figure>
-
-<h2 id="避免使用BigDecimal-double"><a href="#避免使用BigDecimal-double" class="headerlink" title="避免使用BigDecimal(double)"></a>避免使用BigDecimal(double)</h2><blockquote>
-<p>BigDecimal(double) 存在精度损失风险，在精确计算或值比较的场景中可能会导致业务逻辑异常。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BigDecimal 反例</span></span><br><span class="line">BigDecimal bigDecimal = <span class="keyword">new</span> BigDecimal(<span class="number">0.11</span>D);</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BigDecimal 正例</span></span><br><span class="line">BigDecimal bigDecimal1 = bigDecimal.valueOf(<span class="number">0.11</span>D);</span><br></pre></td></tr></table></figure>
-
-<h2 id="返回空数组和集合而非-null"><a href="#返回空数组和集合而非-null" class="headerlink" title="返回空数组和集合而非 null"></a>返回空数组和集合而非 null</h2><blockquote>
-<p>若程序运行返回null，需要调用方强制检测null，否则就会抛出空指针异常；返回空数组或空集合，有效地避免了调用方因为未检测null 而抛出空指针异常的情况，还可以删除调用方检测null 的语句使代码更简洁。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回null 反例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Result[] getResults() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Result&gt; <span class="title">getResultList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, Result&gt; <span class="title">getResultMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回空数组和空集正例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Result[] getResults() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Result[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Result&gt; <span class="title">getResultList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Collections.emptyList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, Result&gt; <span class="title">getResultMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Collections.emptyMap();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="优先使用常量或确定值调用equals-方法"><a href="#优先使用常量或确定值调用equals-方法" class="headerlink" title="优先使用常量或确定值调用equals 方法"></a>优先使用常量或确定值调用equals 方法</h2><blockquote>
-<p>对象的equals 方法容易抛空指针异常，应使用常量或确定有值的对象来调用equals 方法。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用 equals 方法反例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// 可能抛空指针异常</span></span><br><span class="line"> <span class="keyword">return</span> fileName.equals(<span class="string">"Charming"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用 equals 方法正例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用常量或确定有值的对象来调用 equals 方法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Charming"</span>.equals(fileName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//或使用：java.util.Objects.equals() 方法</span></span><br><span class="line">   <span class="keyword">return</span> Objects.equals(<span class="string">"Charming"</span>,fileName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="枚举的属性字段必须是私有且不可变"><a href="#枚举的属性字段必须是私有且不可变" class="headerlink" title="枚举的属性字段必须是私有且不可变"></a>枚举的属性字段必须是私有且不可变</h2><blockquote>
-<p>枚举通常被当做常量使用，如果枚举中存在公共属性字段或设置字段方法，那么这些枚举常量的属性很容易被修改；理想情况下，枚举中的属性字段是私有的，并在私有构造函数中赋值，没有对应的Setter 方法，最好加上final 修饰符。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SwitchStatus &#123;</span><br><span class="line">    <span class="comment">// 枚举的属性字段反例</span></span><br><span class="line">    DISABLED(<span class="number">0</span>, <span class="string">"禁用"</span>),</span><br><span class="line">    ENABLED(<span class="number">1</span>, <span class="string">"启用"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SwitchStatus</span><span class="params">(<span class="keyword">int</span> value, String description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDescription</span><span class="params">(String description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SwitchStatus &#123;</span><br><span class="line">    <span class="comment">// 枚举的属性字段正例</span></span><br><span class="line">    DISABLED(<span class="number">0</span>, <span class="string">"禁用"</span>),</span><br><span class="line">    ENABLED(<span class="number">1</span>, <span class="string">"启用"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// final 修饰</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SwitchStatus</span><span class="params">(<span class="keyword">int</span> value, String description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 没有Setter 方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="tring-split-String-regex-部分关键字需要转译"><a href="#tring-split-String-regex-部分关键字需要转译" class="headerlink" title="tring.split(String regex)部分关键字需要转译"></a>tring.split(String regex)部分关键字需要转译</h2><blockquote>
-<p>使用字符串String 的plit 方法时，传入的分隔字符串是正则表达式，则部分关键字（比如 .| 等）需要转义。</p>
-</blockquote>
-<p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String.split(String regex) 反例</span></span><br><span class="line">String[] split = <span class="string">"a.ab.abc"</span>.split(<span class="string">"."</span>);</span><br><span class="line">System.out.println(Arrays.toString(split));   <span class="comment">// 结果为[]</span></span><br><span class="line"></span><br><span class="line">String[] split1 = <span class="string">"a|ab|abc"</span>.split(<span class="string">"|"</span>);</span><br><span class="line">System.out.println(Arrays.toString(split1));  <span class="comment">// 结果为["a", "|", "a", "b", "|", "a", "b", "c"]</span></span><br></pre></td></tr></table></figure>
-
-<p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String.split(String regex) 正例</span></span><br><span class="line"><span class="comment">// . 需要转译</span></span><br><span class="line">String[] split2 = <span class="string">"a.ab.abc"</span>.split(<span class="string">"\\."</span>);</span><br><span class="line">System.out.println(Arrays.toString(split2));  <span class="comment">// 结果为["a", "ab", "abc"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// | 需要转译</span></span><br><span class="line">String[] split3 = <span class="string">"a|ab|abc"</span>.split(<span class="string">"\\|"</span>);</span><br><span class="line">System.out.println(Arrays.toString(split3));  <span class="comment">// 结果为["a", "ab", "abc"]</span></span><br></pre></td></tr></table></figure>
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/10/16-%E6%9D%A1-yyds-%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" rel="prev" title="16 条 yyds 的代码规范">
+      <i class="fa fa-chevron-left"></i> 16 条 yyds 的代码规范
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/pao.gif">
-      <meta itemprop="name" content="宁中老程">
-      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QWHS">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/" class="post-title-link" itemprop="url">win10安装Redis</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-08-05 09:57:57 / 修改时间：10:25:32" itemprop="dateCreated datePublished" datetime="2021-08-05T09:57:57+08:00">2021-08-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/NoSql%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">NoSql数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="win10安装redis"><a href="#win10安装redis" class="headerlink" title="win10安装redis"></a>win10安装redis</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>下载地址： <a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">https://github.com/MicrosoftArchive/redis/releases</a></p>
-<p>根据系统下载的版本：以（64位为例）</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E4%B8%8B%E8%BD%BD.png" class="" title="下载">
-
-<p>下载后一般解压到根目录下：如（E:\Redis-x64-3.2.100）</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>打开cmd命令窗口，使用命令进行安装和注册redis到window服务</p>
-<p>安装命令：redis-server.exe –service-install redis.windows.conf –loglevel verbose</p>
-<p>启动服务命令：redis-server.exe –service-start</p>
-<p>关闭服务命令：redis-server.exe –service-stop</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E5%AE%89%E8%A3%85.png" class="" title="安装">
-
-<p>最后返回的successfully表示安装成功。</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E6%88%90%E5%8A%9F%E5%AE%89%E8%A3%85.png" class="" title="成功">
-
-<p>也可以通过任务管理器中查看后台中是否有redis-service来判断是否启动成功。</p>
-<p>我们重新打开一个cmd ,作为一个客户端调用redis服务，如下图所示，调用命令是：redis-cli.exe -h 127.0.0.1 -p 6379，如下图显示地址和端口，说明调用成功</p>
-<p>然后我们使用set 和get 命令进行测试一下，set uname “abc”,然后使用get uname可以获取到对应set的值，说明调用成功</p>
-<h2 id="客户端使用redis"><a href="#客户端使用redis" class="headerlink" title="客户端使用redis"></a>客户端使用redis</h2><p>我们重新打开一个cmd ,作为一个客户端调用redis服务，如下图所示，调用命令是：redis-cli.exe -h 127.0.0.1 -p 6379，如下图显示地址和端口，说明调用成功</p>
-<p>然后我们使用set 和get 命令进行测试一下，set uname “abc”,然后使用get uname可以获取到对应set的值，说明调用成功</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E8%B0%83%E7%94%A8%E5%91%BD%E4%BB%A4.png" class="" title="调用">
-
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/get_set%E5%91%BD%E4%BB%A4.png" class="" title="get_set">
-
-<h2 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h2><img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81.png" class="" title="密码">
-
-<p>还可以通过将字符串设置为空来清空密码：<br>CONFIG SET requirepass “”</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -724,6 +430,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#九大组件"><span class="nav-number">1.</span> <span class="nav-text">九大组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.1.</span> <span class="nav-text">Controller部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心方法"><span class="nav-number">2.</span> <span class="nav-text">核心方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">2.1.</span> <span class="nav-text">doService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doDispatch"><span class="nav-number">2.2.</span> <span class="nav-text">doDispatch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getHandler"><span class="nav-number">2.3.</span> <span class="nav-text">getHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getHandlerAdapter"><span class="nav-number">2.4.</span> <span class="nav-text">getHandlerAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#processDispatchResult"><span class="nav-number">2.5.</span> <span class="nav-text">processDispatchResult</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#render"><span class="nav-number">2.6.</span> <span class="nav-text">render</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolveViewName"><span class="nav-number">2.7.</span> <span class="nav-text">resolveViewName</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数绑定"><span class="nav-number">3.</span> <span class="nav-text">参数绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#handle"><span class="nav-number">3.1.</span> <span class="nav-text">handle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#handleInternal"><span class="nav-number">3.2.</span> <span class="nav-text">handleInternal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invokeHandlerMethod"><span class="nav-number">3.3.</span> <span class="nav-text">invokeHandlerMethod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invokeForRequest"><span class="nav-number">3.4.</span> <span class="nav-text">invokeForRequest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getMethodArgumentValues"><span class="nav-number">3.5.</span> <span class="nav-text">getMethodArgumentValues</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolveArgument"><span class="nav-number">3.6.</span> <span class="nav-text">resolveArgument</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getArgumentResolver"><span class="nav-number">3.7.</span> <span class="nav-text">getArgumentResolver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolveArgument-1"><span class="nav-number">3.8.</span> <span class="nav-text">resolveArgument</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bindRequestParameters"><span class="nav-number">3.9.</span> <span class="nav-text">bindRequestParameters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bind"><span class="nav-number">3.10.</span> <span class="nav-text">bind</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值处理"><span class="nav-number">4.</span> <span class="nav-text">返回值处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#invokeAndHandle"><span class="nav-number">4.1.</span> <span class="nav-text">invokeAndHandle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#handleReturnValue"><span class="nav-number">4.2.</span> <span class="nav-text">handleReturnValue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#selectHandler"><span class="nav-number">4.3.</span> <span class="nav-text">selectHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#handleReturnValue-1"><span class="nav-number">4.4.</span> <span class="nav-text">handleReturnValue</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
