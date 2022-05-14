@@ -168,6 +168,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/cookie%E3%80%81session%E3%80%81token%E3%80%81jwt%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pao.gif">
+      <meta itemprop="name" content="宁中老程">
+      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QWHS">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/09/cookie%E3%80%81session%E3%80%81token%E3%80%81jwt%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">cookie、session、token、jwt介绍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-09 10:56:03 / 修改时间：11:04:57" itemprop="dateCreated datePublished" datetime="2020-06-09T10:56:03+08:00">2020-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h1><blockquote>
+<p>cookie的诞生<br>由于HTTP协议是无状态的，而服务器端的业务必须是要有状态的。Cookie诞生的最初目的是为了存储web中的状态信息，以方便服务器端使用。比如判断用户是否是第一次访问网站。目前最新的规范是RFC 6265，它是一个由浏览器服务器共同协作实现的规范。<br>Cookie的处理分为：<br>服务器像客户端发送cookie<br>浏览器将cookie保存<br>之后每次http请求浏览器都会将cookie发送给服务器端</p>
+</blockquote>
+<h1 id="session"><a href="#session" class="headerlink" title="session"></a>session</h1><blockquote>
+<ol>
+<li>为什么要有session的出现？<br>答：是由于网络中http协议造成的，因为http本身是无状态协议，这样，无法确定你的本次请求和上次请求是不是你发送的。如果要进行类似论坛登陆相关的操作，就实现不了了。</li>
+<li>session生成方式？<br>答：浏览器第一次访问服务器，服务器会创建一个session，然后同时为该session生成一个唯一的会话的key,也就是sessionid，然后，将sessionid及对应的session分别作为key和value保存到缓存中，也可以持久化到数据库中，然后服务器再把sessionid，以cookie的形式发送给客户端。这样浏览器下次再访问时，会直接带着cookie中的sessionid。然后服务器根据sessionid找到对应的session进行匹配；<br>还有一种是浏览器禁用了cookie或不支持cookie，这种可以通过URL重写的方式发到服务器；</li>
+</ol>
+</blockquote>
+<h1 id="token"><a href="#token" class="headerlink" title="token"></a>token</h1><blockquote>
+<p>访问资源的令牌<br>验证流程：<br>1.把用户的用户名和密码发到后端<br>2.后端进行校验，校验成功会生成token, 把token发送给客户端<br>3.客户端自己保存token, 再次请求就要在Http协议的请求头中带着token去访问服务端，和在服务端保存的token信息进行比对校验。</p>
+</blockquote>
+<h1 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h1><blockquote>
+<p>java web token 的缩写，可使用restful接口定义，也可以用在web中<br>段落引用组成：<br>header<br>在header中声明一些信息<br>payload、</p>
+</blockquote>
+<blockquote>
+<p>签证<br>验证流程：<br>1.段落引用在头部信息中声明加密算法和常量， 然后把header使用json转化为字符串<br>2.段落引用在载荷中声明用户信息，同时还有一些其他的内容；再次使用json 把载荷部分进行转化，转化为字符串<br>3.使用在header中声明的加密算法和每个项目随机生成的secret来进行加密， 把第一步分字符串和第二部分的字符串进行加密， 生成新的字符串。词字符串是独一无二的。<br>4.解密的时候，只要客户端带着JWT来发起请求，服务端就直接使用secret进行解密。</p>
+</blockquote>
+<blockquote>
+<p>特点：<br>1.三部分组成，每一部分都进行字符串的转化<br>2.解密的时候没有使用数据库，仅仅使用的是secret进行解密。<br>3.JWT的secret不能泄密</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/07/Hexo%E5%85%8D%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%E9%83%A8%E7%BD%B2%E5%88%B0github/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -414,7 +502,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -427,7 +515,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -454,7 +542,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
