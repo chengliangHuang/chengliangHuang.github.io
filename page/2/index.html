@@ -168,6 +168,207 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/10/16-%E6%9D%A1-yyds-%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pao.gif">
+      <meta itemprop="name" content="宁中老程">
+      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QWHS">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/10/16-%E6%9D%A1-yyds-%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">16 条 yyds 的代码规范</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-10 16:22:09 / 修改时间：16:45:53" itemprop="dateCreated datePublished" datetime="2021-08-10T16:22:09+08:00">2021-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MyBatis-不要为了多个查询条件而写-1-1"><a href="#MyBatis-不要为了多个查询条件而写-1-1" class="headerlink" title="MyBatis 不要为了多个查询条件而写 1 = 1"></a>MyBatis 不要为了多个查询条件而写 1 = 1</h2><blockquote>
+<p>当遇到多个查询条件，使用where 1=1 可以很方便的解决我们的问题，但是这样很可能会造成非常大的性能损失，因为添加了 “where 1=1 ”的过滤条件之后，数据库系统就无法使用索引等查询优化策略，数据库系统将会被迫对每行数据进行扫描（即全表扫描） 以比较此行是否满足过滤条件，当表中的数据量较大时查询速度会非常慢；此外，还会存在SQL 注入的风险。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryBookInfo"</span> <span class="attr">parameterType</span>=<span class="string">"com.tjt.platform.entity.BookInfo"</span> <span class="attr">resultType</span>=<span class="string">"java.lang.Integer"</span>&gt;</span></span><br><span class="line"> select count(*) from t_rule_BookInfo t where 1=1</span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title !=null and title !='' "</span>&gt;</span></span><br><span class="line"> AND title = #&#123;title&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"author !=null and author !='' "</span>&gt;</span></span><br><span class="line"> AND author = #&#123;author&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryBookInfo"</span> <span class="attr">parameterType</span>=<span class="string">"com.tjt.platform.entity.BookInfo"</span> <span class="attr">resultType</span>=<span class="string">"java.lang.Integer"</span>&gt;</span></span><br><span class="line"> select count(*) from t_rule_BookInfo t</span><br><span class="line"><span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title !=null and title !='' "</span>&gt;</span></span><br><span class="line"> title = #&#123;title&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"author !=null and author !='' "</span>&gt;</span></span><br><span class="line"> AND author = #&#123;author&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>UPDATE 操作也一样，可以用标记代替 1=1。</p>
+<h2 id="迭代entrySet-获取Map-的key-和value"><a href="#迭代entrySet-获取Map-的key-和value" class="headerlink" title="迭代entrySet() 获取Map 的key 和value"></a>迭代entrySet() 获取Map 的key 和value</h2><blockquote>
+<p>当循环中只需要获取Map 的主键key时，迭代keySet() 是正确的；但是，当需要主键key 和取值value 时，迭代entrySet() 才是更高效的做法，其比先迭代keySet() 后再去通过get 取值性能更佳。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Map 获取value 反例:</span></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (String key : map.keySet())&#123;</span><br><span class="line">    String value = map.get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Map 获取key &amp; value 正例:</span></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String,String&gt; entry : map.entrySet())&#123;</span><br><span class="line"> String key = entry.getKey();</span><br><span class="line"> String value = entry.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用Collection-isEmpty-检测空"><a href="#使用Collection-isEmpty-检测空" class="headerlink" title="使用Collection.isEmpty() 检测空"></a>使用Collection.isEmpty() 检测空</h2><blockquote>
+<p>使用Collection.size() 来检测是否为空在逻辑上没有问题，但是使用Collection.isEmpty() 使得代码更易读，并且可以获得更好的性能；除此之外，任何Collection.isEmpty() 实现的时间复杂度都是O(1) ，不需要多次循环遍历，但是某些通过Collection.size() 方法实现的时间复杂度可能是O(n)，或者使用第三方工具类如：Hutool 提供的集合检查工具。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LinkedList&lt;Object&gt; collection = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"><span class="keyword">if</span> (collection.size() == <span class="number">0</span>)&#123;</span><br><span class="line"> System.out.println(<span class="string">"collection is empty."</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LinkedList&lt;Object&gt; collection = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"><span class="keyword">if</span> (collection.isEmpty())&#123;</span><br><span class="line">    System.out.println(<span class="string">"collection is empty."</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//检测是否为null 可以使用CollectionUtils.isEmpty()</span></span><br><span class="line"><span class="keyword">if</span> (CollectionUtils.isEmpty(collection))&#123;</span><br><span class="line">    System.out.println(<span class="string">"collection is null."</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化集合时尽量指定其大小"><a href="#初始化集合时尽量指定其大小" class="headerlink" title="初始化集合时尽量指定其大小"></a>初始化集合时尽量指定其大小</h2><blockquote>
+<p>尽量在初始化时指定集合的大小，能有效减少集合的扩容次数，因为集合每次扩容的时间复杂度很可能时O(n)，耗费时间和性能。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化list，往list 中添加元素反例：</span></span><br><span class="line"><span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i : arr)&#123;</span><br><span class="line"> list.add(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化list，往list 中添加元素正例：</span></span><br><span class="line"><span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="comment">//指定集合list 的容量大小</span></span><br><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(arr.length);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i : arr)&#123;</span><br><span class="line">    list.add(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用StringBuilder-拼接字符串"><a href="#使用StringBuilder-拼接字符串" class="headerlink" title="使用StringBuilder 拼接字符串"></a>使用StringBuilder 拼接字符串</h2><blockquote>
+<p>一般的字符串拼接在编译期Java 会对其进行优化，但是在循环中字符串的拼接Java 编译期无法执行优化，所以需要使用StringBuilder 进行替换。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在循环中拼接字符串反例</span></span><br><span class="line">String str = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">    <span class="comment">//在循环中字符串拼接Java 不会对其进行优化</span></span><br><span class="line">    str += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在循环中拼接字符串正例</span></span><br><span class="line">String str1 = <span class="string">"Love"</span>;</span><br><span class="line">String str2 = <span class="string">"Courage"</span>;</span><br><span class="line">String strConcat = str1 + str2;  <span class="comment">//Java 编译器会对该普通模式的字符串拼接进行优化</span></span><br><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">   <span class="comment">//在循环中，Java 编译器无法进行优化，所以要手动使用StringBuilder</span></span><br><span class="line">    sb.append(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="若需频繁调用Collection-contains-方法则使用Set"><a href="#若需频繁调用Collection-contains-方法则使用Set" class="headerlink" title="若需频繁调用Collection.contains 方法则使用Set"></a>若需频繁调用Collection.contains 方法则使用Set</h2><blockquote>
+<p>在Java 集合类库中，List的contains 方法普遍时间复杂度为O(n)，若代码中需要频繁调用contains 方法查找数据则先将集合list 转换成HashSet 实现，将O(n) 的时间复杂度将为O(1)。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//频繁调用Collection.contains() 反例</span></span><br><span class="line">List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= Integer.MAX_VALUE; i++)&#123;</span><br><span class="line">    <span class="comment">//时间复杂度为O(n)</span></span><br><span class="line">    <span class="keyword">if</span> (list.contains(i))</span><br><span class="line">    System.out.println(<span class="string">"list contains "</span>+ i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//频繁调用Collection.contains() 正例</span></span><br><span class="line">List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Set&lt;Object&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= Integer.MAX_VALUE; i++)&#123;</span><br><span class="line">    <span class="comment">//时间复杂度为O(1)</span></span><br><span class="line">    <span class="keyword">if</span> (set.contains(i))&#123;</span><br><span class="line">        System.out.println(<span class="string">"list contains "</span>+ i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用静态代码块实现赋值静态成员变量"><a href="#使用静态代码块实现赋值静态成员变量" class="headerlink" title="使用静态代码块实现赋值静态成员变量"></a>使用静态代码块实现赋值静态成员变量</h2><blockquote>
+<p>对于集合类型的静态成员变量，应该使用静态代码块赋值，而不是使用集合实现来赋值。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//赋值静态成员变量反例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;()&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        map.put(<span class="string">"Leo"</span>,<span class="number">1</span>);</span><br><span class="line">        map.put(<span class="string">"Family-loving"</span>,<span class="number">2</span>);</span><br><span class="line">        map.put(<span class="string">"Cold on the out side passionate on the inside"</span>,<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;()&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        list.add(<span class="string">"Sagittarius"</span>);</span><br><span class="line">        list.add(<span class="string">"Charming"</span>);</span><br><span class="line">        list.add(<span class="string">"Perfectionist"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//赋值静态成员变量正例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    map.put(<span class="string">"Leo"</span>,<span class="number">1</span>);</span><br><span class="line">    map.put(<span class="string">"Family-loving"</span>,<span class="number">2</span>);</span><br><span class="line">    map.put(<span class="string">"Cold on the out side passionate on the inside"</span>,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    list.add(<span class="string">"Sagittarius"</span>);</span><br><span class="line">    list.add(<span class="string">"Charming"</span>);</span><br><span class="line">    list.add(<span class="string">"Perfectionist"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。"><a href="#删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。" class="headerlink" title="删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。"></a>删除未使用的局部变量、方法参数、私有方法、字段和多余的括号。</h2><h2 id="工具类中屏蔽构造函数"><a href="#工具类中屏蔽构造函数" class="headerlink" title="工具类中屏蔽构造函数"></a>工具类中屏蔽构造函数</h2><blockquote>
+<p>工具类是一堆静态字段和函数的集合，其不应该被实例化；但是，Java 为每个没有明确定义构造函数的类添加了一个隐式公有构造函数，为了避免不必要的实例化，应该显式定义私有构造函数来屏蔽这个隐式公有构造函数。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line"><span class="comment">//工具类构造函数反例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line"><span class="comment">//工具类构造函数正例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义私有构造函数来屏蔽这个隐式公有构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">PasswordUtils</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除多余的异常捕获并抛出"><a href="#删除多余的异常捕获并抛出" class="headerlink" title="删除多余的异常捕获并抛出"></a>删除多余的异常捕获并抛出</h2><blockquote>
+<p>用catch 语句捕获异常后，若什么也不进行处理，就只是让异常重新抛出，这跟不捕获异常的效果一样，可以删除这块代码或添加别的处理。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//多余异常反例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> (BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">        String line;</span><br><span class="line">        StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            builder.append(line);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> builder.toString();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">//仅仅是重复抛异常 未作任何处理</span></span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//多余异常正例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> (BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">        String line;</span><br><span class="line">        StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            builder.append(line);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> builder.toString();</span><br><span class="line">        <span class="comment">//删除多余的抛异常，或增加其他处理：</span></span><br><span class="line">        <span class="comment">/*catch (Exception e) &#123;</span></span><br><span class="line"><span class="comment">            return "fileReader exception";</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串转化使用String-valueOf-value-代替-“-“-value"><a href="#字符串转化使用String-valueOf-value-代替-“-“-value" class="headerlink" title="字符串转化使用String.valueOf(value) 代替 “ “ + value"></a>字符串转化使用String.valueOf(value) 代替 “ “ + value</h2><blockquote>
+<p>把其它对象或类型转化为字符串时，使用String.valueOf(value) 比 “”+value 的效率更高。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把其它对象或类型转化为字符串反例：</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">520</span>;</span><br><span class="line"><span class="comment">// "" + value</span></span><br><span class="line">String strLove = <span class="string">""</span> + num;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把其它对象或类型转化为字符串正例：</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">520</span>;</span><br><span class="line"><span class="comment">// String.valueOf() 效率更高</span></span><br><span class="line">String strLove = String.valueOf(num);</span><br></pre></td></tr></table></figure>
+
+<h2 id="避免使用BigDecimal-double"><a href="#避免使用BigDecimal-double" class="headerlink" title="避免使用BigDecimal(double)"></a>避免使用BigDecimal(double)</h2><blockquote>
+<p>BigDecimal(double) 存在精度损失风险，在精确计算或值比较的场景中可能会导致业务逻辑异常。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BigDecimal 反例</span></span><br><span class="line">BigDecimal bigDecimal = <span class="keyword">new</span> BigDecimal(<span class="number">0.11</span>D);</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BigDecimal 正例</span></span><br><span class="line">BigDecimal bigDecimal1 = bigDecimal.valueOf(<span class="number">0.11</span>D);</span><br></pre></td></tr></table></figure>
+
+<h2 id="返回空数组和集合而非-null"><a href="#返回空数组和集合而非-null" class="headerlink" title="返回空数组和集合而非 null"></a>返回空数组和集合而非 null</h2><blockquote>
+<p>若程序运行返回null，需要调用方强制检测null，否则就会抛出空指针异常；返回空数组或空集合，有效地避免了调用方因为未检测null 而抛出空指针异常的情况，还可以删除调用方检测null 的语句使代码更简洁。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回null 反例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Result[] getResults() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Result&gt; <span class="title">getResultList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, Result&gt; <span class="title">getResultMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回空数组和空集正例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Result[] getResults() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Result[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Result&gt; <span class="title">getResultList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Collections.emptyList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, Result&gt; <span class="title">getResultMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Collections.emptyMap();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="优先使用常量或确定值调用equals-方法"><a href="#优先使用常量或确定值调用equals-方法" class="headerlink" title="优先使用常量或确定值调用equals 方法"></a>优先使用常量或确定值调用equals 方法</h2><blockquote>
+<p>对象的equals 方法容易抛空指针异常，应使用常量或确定有值的对象来调用equals 方法。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用 equals 方法反例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// 可能抛空指针异常</span></span><br><span class="line"> <span class="keyword">return</span> fileName.equals(<span class="string">"Charming"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用 equals 方法正例</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">fileReader</span><span class="params">(String fileName)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用常量或确定有值的对象来调用 equals 方法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Charming"</span>.equals(fileName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//或使用：java.util.Objects.equals() 方法</span></span><br><span class="line">   <span class="keyword">return</span> Objects.equals(<span class="string">"Charming"</span>,fileName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="枚举的属性字段必须是私有且不可变"><a href="#枚举的属性字段必须是私有且不可变" class="headerlink" title="枚举的属性字段必须是私有且不可变"></a>枚举的属性字段必须是私有且不可变</h2><blockquote>
+<p>枚举通常被当做常量使用，如果枚举中存在公共属性字段或设置字段方法，那么这些枚举常量的属性很容易被修改；理想情况下，枚举中的属性字段是私有的，并在私有构造函数中赋值，没有对应的Setter 方法，最好加上final 修饰符。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SwitchStatus &#123;</span><br><span class="line">    <span class="comment">// 枚举的属性字段反例</span></span><br><span class="line">    DISABLED(<span class="number">0</span>, <span class="string">"禁用"</span>),</span><br><span class="line">    ENABLED(<span class="number">1</span>, <span class="string">"启用"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SwitchStatus</span><span class="params">(<span class="keyword">int</span> value, String description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDescription</span><span class="params">(String description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SwitchStatus &#123;</span><br><span class="line">    <span class="comment">// 枚举的属性字段正例</span></span><br><span class="line">    DISABLED(<span class="number">0</span>, <span class="string">"禁用"</span>),</span><br><span class="line">    ENABLED(<span class="number">1</span>, <span class="string">"启用"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// final 修饰</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SwitchStatus</span><span class="params">(<span class="keyword">int</span> value, String description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 没有Setter 方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="tring-split-String-regex-部分关键字需要转译"><a href="#tring-split-String-regex-部分关键字需要转译" class="headerlink" title="tring.split(String regex)部分关键字需要转译"></a>tring.split(String regex)部分关键字需要转译</h2><blockquote>
+<p>使用字符串String 的plit 方法时，传入的分隔字符串是正则表达式，则部分关键字（比如 .| 等）需要转义。</p>
+</blockquote>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String.split(String regex) 反例</span></span><br><span class="line">String[] split = <span class="string">"a.ab.abc"</span>.split(<span class="string">"."</span>);</span><br><span class="line">System.out.println(Arrays.toString(split));   <span class="comment">// 结果为[]</span></span><br><span class="line"></span><br><span class="line">String[] split1 = <span class="string">"a|ab|abc"</span>.split(<span class="string">"|"</span>);</span><br><span class="line">System.out.println(Arrays.toString(split1));  <span class="comment">// 结果为["a", "|", "a", "b", "|", "a", "b", "c"]</span></span><br></pre></td></tr></table></figure>
+
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String.split(String regex) 正例</span></span><br><span class="line"><span class="comment">// . 需要转译</span></span><br><span class="line">String[] split2 = <span class="string">"a.ab.abc"</span>.split(<span class="string">"\\."</span>);</span><br><span class="line">System.out.println(Arrays.toString(split2));  <span class="comment">// 结果为["a", "ab", "abc"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// | 需要转译</span></span><br><span class="line">String[] split3 = <span class="string">"a|ab|abc"</span>.split(<span class="string">"\\|"</span>);</span><br><span class="line">System.out.println(Arrays.toString(split3));  <span class="comment">// 结果为["a", "ab", "abc"]</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -341,135 +542,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/22/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Java-%E7%9A%84-3-%E7%A7%8D%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/pao.gif">
-      <meta itemprop="name" content="宁中老程">
-      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QWHS">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/22/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Java-%E7%9A%84-3-%E7%A7%8D%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">深入理解 Java 的 3 种工厂模式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-07-22 10:52:40 / 修改时间：15:56:36" itemprop="dateCreated datePublished" datetime="2021-07-22T10:52:40+08:00">2021-07-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a><center>简单工厂模式</center></h2><p>简单工厂的定义：提供一个创建对象实例的功能，而无须关心其具体实现。被创建实例的类型可以是接口、抽象类，也可以是具体的类</p>
-<p><strong>实现汽车接口</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>奔驰类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Benz</span> <span class="keyword">implements</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Benz"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>宝马类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BMW</span> <span class="keyword">implements</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"BMW"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>简单工厂，既能生产宝马又能生产奔驰</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (name.equals(<span class="string">"BMW"</span>))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BMW();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (name.equals(<span class="string">"benz"</span>))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Benz();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"不好意思，这个品牌的汽车生产不了"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleFactoryTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        SimpleFactory simpleFactory = <span class="keyword">new</span> SimpleFactory();</span><br><span class="line">        Car car = simpleFactory.getCar(<span class="string">"BMW"</span>);</span><br><span class="line">        System.out.println(car.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试结果</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BMW</span><br></pre></td></tr></table></figure>
-
-<p>根据简单工厂的定义，用户只要产品而不在乎产品如何生产，看起来好像很完美的样子这个世界存在什么都生产的工厂吗？</p>
-<p>显然是不存在的，每一个汽车品牌都有自己的生产工厂，都有自己生产技术。映射到spring框架中，我们有很多很多种的bean需要生产，如果只依靠一个简单工厂来实现，那么我们得在工厂类中嵌套多少个if..else if啊？</p>
-<p>而且我们在代码中生产一辆汽车只是new一下就出来了，但实际操作中却不知道需要进行多少操作，加载、注册等操作都将体现在工厂类中，那么这个类就会变得紊乱，管理起来也很不方便，所以说每个品牌应该有自己的生产类。</p>
-<p>因为专一，所以专业，这个时候工厂方法就出现了。</p>
-<h2 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a><center>工厂方法</center></h2><p><strong>工厂接口</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个工厂接口，功能就是生产汽车</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="function">Car <span class="title">getCar</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>奔驰工厂</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BenzFactory</span> <span class="keyword">implements</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Benz();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>宝马工厂</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BMWFactory</span> <span class="keyword">implements</span> <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> BMW();&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Factory bmwFactory = <span class="keyword">new</span> BMWFactory();</span><br><span class="line">        System.out.println(bmwFactory.getCar().getName());</span><br><span class="line">        Factory benzFactory = <span class="keyword">new</span> BenzFactory();</span><br><span class="line">        System.out.println(benzFactory.getCar().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试结果</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BMWBenz</span><br></pre></td></tr></table></figure>
-
-<p>根据上述代码可以看出，不同品牌的汽车是由不同的工厂生产的，貌似又是很完美的。但大家看一下测试类，当一个人想要去买一辆宝马汽车的时候（假设没有销售商），那么他就要去找宝马工厂给他生产一辆，过几天又想要买一辆奔驰汽车的时候，又得跑到奔驰工厂请人生产，这无疑就增加了用户的操作复杂性。所以有没有一种方便用户操作的方法呢？这个时候抽象工厂模式就出现了。</p>
-<h2 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a><center>抽象工厂</center></h2><p><strong>抽象工厂</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> Car <span class="title">getCar</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//这段代码就是动态配置的功能//固定模式的委派</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"BMW"</span>.equalsIgnoreCase(name))&#123;<span class="keyword">return</span> <span class="keyword">new</span> BmwFactory().getCar();&#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"Benz"</span>.equalsIgnoreCase(name))&#123;<span class="keyword">return</span> <span class="keyword">new</span> BenzFactory().getCar();&#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"Audi"</span>.equalsIgnoreCase(name))&#123;<span class="keyword">return</span> <span class="keyword">new</span> AudiFactory().getCar();&#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;System.out.println(<span class="string">"这个产品产不出来"</span>);<span class="keyword">return</span> <span class="keyword">null</span>;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>默认工厂</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultFactory</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> AudiFactory defaultFactory = <span class="keyword">new</span> AudiFactory();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> defaultFactory.getCar();&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>宝马工厂</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BMWFactory</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BMW();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>奔驰工厂</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BenzFactory</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Benz();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractFactoryTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DefaultFactory factory = <span class="keyword">new</span> DefaultFactory();</span><br><span class="line">        System.out.println(factory.getCar(<span class="string">"Benz"</span>).getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试结果</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Benz</span><br></pre></td></tr></table></figure>
-
-<p>根据上述代码可以看出，用户需要一辆汽车，只需要去找默认的工厂提出自己的需求（传入参数），便能得到自己想要产品，而不用根据产品去寻找不同的生产工厂，方便用户操作。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -537,20 +613,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
