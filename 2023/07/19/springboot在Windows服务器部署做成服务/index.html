@@ -20,28 +20,28 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="win10安装redis下载下载地址： https:&#x2F;&#x2F;github.com&#x2F;MicrosoftArchive&#x2F;redis&#x2F;releases 根据系统下载的版本：以（64位为例）   下载后一般解压到根目录下：如（E:\Redis-x64-3.2.100） 安装打开cmd命令窗口，使用命令进行安装和注册redis到window服务 安装命令：redis-server.exe –service-in">
+  <meta name="description" content="springboot项目可以直接在cmd中使用java -jar这种方法可以快速启动但有个问题就是关掉cmd窗口程序就会停止，因此本系统采用了将后台做成windows服务的方式启动。 这里用到了winsw插件，winsw是一个开源项目，程序以及源码可以在Git Hub下载：https:&#x2F;&#x2F;github.com&#x2F;kohsuke&#x2F;winsw&#x2F;releases winsw是一个可以将任何应用程序注册成服">
 <meta property="og:type" content="article">
-<meta property="og:title" content="win10安装Redis">
-<meta property="og:url" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/index.html">
+<meta property="og:title" content="springboot在Windows服务器部署做成服务">
+<meta property="og:url" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/index.html">
 <meta property="og:site_name" content="QWHS">
-<meta property="og:description" content="win10安装redis下载下载地址： https:&#x2F;&#x2F;github.com&#x2F;MicrosoftArchive&#x2F;redis&#x2F;releases 根据系统下载的版本：以（64位为例）   下载后一般解压到根目录下：如（E:\Redis-x64-3.2.100） 安装打开cmd命令窗口，使用命令进行安装和注册redis到window服务 安装命令：redis-server.exe –service-in">
+<meta property="og:description" content="springboot项目可以直接在cmd中使用java -jar这种方法可以快速启动但有个问题就是关掉cmd窗口程序就会停止，因此本系统采用了将后台做成windows服务的方式启动。 这里用到了winsw插件，winsw是一个开源项目，程序以及源码可以在Git Hub下载：https:&#x2F;&#x2F;github.com&#x2F;kohsuke&#x2F;winsw&#x2F;releases winsw是一个可以将任何应用程序注册成服">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E4%B8%8B%E8%BD%BD.png">
-<meta property="og:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E5%AE%89%E8%A3%85.png">
-<meta property="og:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E6%88%90%E5%8A%9F%E5%AE%89%E8%A3%85.png">
-<meta property="og:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E8%B0%83%E7%94%A8%E5%91%BD%E4%BB%A4.png">
-<meta property="og:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/get_set%E5%91%BD%E4%BB%A4.png">
-<meta property="og:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81.png">
-<meta property="article:published_time" content="2021-08-05T01:57:57.000Z">
-<meta property="article:modified_time" content="2021-08-05T02:25:32.680Z">
+<meta property="og:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E8%BD%BD.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E5%91%BD%E5%90%8D.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E5%90%AF%E5%8A%A8.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E5%90%AF%E5%8A%A81.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E6%9C%8D%E5%8A%A1.png">
+<meta property="article:published_time" content="2023-07-19T03:40:38.000Z">
+<meta property="article:modified_time" content="2023-07-19T03:47:57.439Z">
 <meta property="article:author" content="宁中老程">
 <meta property="article:tag" content="simple">
-<meta property="article:tag" content="安装">
+<meta property="article:tag" content="demo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E4%B8%8B%E8%BD%BD.png">
+<meta name="twitter:image" content="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E8%BD%BD.png">
 
-<link rel="canonical" href="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/">
+<link rel="canonical" href="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/">
 
 
 <script id="page-configurations">
@@ -54,7 +54,7 @@
   };
 </script>
 
-  <title>win10安装Redis | QWHS</title>
+  <title>springboot在Windows服务器部署做成服务 | QWHS</title>
   
 
 
@@ -170,7 +170,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/pao.gif">
@@ -183,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          win10安装Redis
+          springboot在Windows服务器部署做成服务
         </h1>
 
         <div class="post-meta">
@@ -194,7 +194,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-08-05 09:57:57 / 修改时间：10:25:32" itemprop="dateCreated datePublished" datetime="2021-08-05T09:57:57+08:00">2021-08-05</time>
+              <time title="创建时间：2023-07-19 11:40:38 / 修改时间：11:47:57" itemprop="dateCreated datePublished" datetime="2023-07-19T11:40:38+08:00">2023-07-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -202,11 +202,15 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+                  <a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/NoSql%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">NoSql数据库</span></a>
+                  <a href="/categories/spring/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spring/springboot/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
                 </span>
             </span>
 
@@ -221,32 +225,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="win10安装redis"><a href="#win10安装redis" class="headerlink" title="win10安装redis"></a>win10安装redis</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>下载地址： <a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">https://github.com/MicrosoftArchive/redis/releases</a></p>
-<p>根据系统下载的版本：以（64位为例）</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E4%B8%8B%E8%BD%BD.png" class="" title="下载">
+        <p>springboot项目可以直接在cmd中使用java -jar这种方法可以快速启动但有个问题就是关掉cmd窗口程序就会停止，因此本系统采用了将后台做成windows服务的方式启动。</p>
+<p>这里用到了winsw插件，winsw是一个开源项目，程序以及源码可以在Git Hub下载：<a href="https://github.com/kohsuke/winsw/releases" target="_blank" rel="noopener">https://github.com/kohsuke/winsw/releases</a></p>
+<p>winsw是一个可以将任何应用程序注册成服务的软件，使用方法如下：</p>
+<p><strong>1、 将Git Hub中下载的WinSW.NET4.exe和sample-minimal.xml文件及项目的jar包放在同一个文件夹中。</strong> </p>
+<img src="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E8%BD%BD.png" class="" title="下载">
 
-<p>下载后一般解压到根目录下：如（E:\Redis-x64-3.2.100）</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>打开cmd命令窗口，使用命令进行安装和注册redis到window服务</p>
-<p>安装命令：redis-server.exe –service-install redis.windows.conf –loglevel verbose</p>
-<p>启动服务命令：redis-server.exe –service-start</p>
-<p>关闭服务命令：redis-server.exe –service-stop</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/redis%E5%AE%89%E8%A3%85.png" class="" title="安装">
+<p><strong>2、需要将winsw执行程序跟xml改成同样的名字，推荐使用项目名+Service的命名方式，比如：WinSW.NET4.exe改成xxxService.exe，sample-minmal.xml改成xxxService.xml。</strong></p>
+<img src="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E5%91%BD%E5%90%8D.png" class="" title="命名">
 
-<p>最后返回的successfully表示安装成功。</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E6%88%90%E5%8A%9F%E5%AE%89%E8%A3%85.png" class="" title="成功">
+<p><strong>3、编辑myProjectService.xml文件，内容如下</strong></p>
+<img src="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E9%85%8D%E7%BD%AE.png" class="" title="配置">
 
-<p>也可以通过任务管理器中查看后台中是否有redis-service来判断是否启动成功。</p>
-<p>我们重新打开一个cmd ,作为一个客户端调用redis服务，如下图所示，调用命令是：redis-cli.exe -h 127.0.0.1 -p 6379，如下图显示地址和端口，说明调用成功</p>
-<p>然后我们使用set 和get 命令进行测试一下，set uname “abc”,然后使用get uname可以获取到对应set的值，说明调用成功</p>
-<h2 id="客户端使用redis"><a href="#客户端使用redis" class="headerlink" title="客户端使用redis"></a>客户端使用redis</h2><p>我们重新打开一个cmd ,作为一个客户端调用redis服务，如下图所示，调用命令是：redis-cli.exe -h 127.0.0.1 -p 6379，如下图显示地址和端口，说明调用成功</p>
-<p>然后我们使用set 和get 命令进行测试一下，set uname “abc”,然后使用get uname可以获取到对应set的值，说明调用成功</p>
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E8%B0%83%E7%94%A8%E5%91%BD%E4%BB%A4.png" class="" title="调用">
+<p><strong>（注：此处注意，如果用的是文本编辑器修改，务必将编码格式换成Unicode编码）</strong></p>
+<p><strong>4、 启动，打开系统服务功能：运行—输入cmd，然后进入到xxxService.exe所在文件夹，然后执行命令安装服务命令：xxxService.exe install</strong></p>
+<img src="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E5%90%AF%E5%8A%A8.png" class="" title="启动">
 
-<img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/get_set%E5%91%BD%E4%BB%A4.png" class="" title="get_set">
+<p><strong>5、 命令提示符界面输入命令”net start xxxService”(服务名)启动服务。</strong></p>
+<img src="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E5%90%AF%E5%8A%A81.png" class="" title="启动1">
 
-<h2 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h2><img src="/2021/08/05/win10%E5%AE%89%E8%A3%85Redis/%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81.png" class="" title="密码">
+<p><strong>6、在服务中可找到此服务</strong></p>
+<img src="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/%E6%9C%8D%E5%8A%A1.png" class="" title="服务">
 
-<p>还可以通过将字符串设置为空来清空密码：<br>CONFIG SET requirepass “”</p>
+
+
+<p>启动服务命令：</p>
+<p>myProjectService.exe install</p>
+<p>net start myProjectServiceName    </p>
+<p>关闭服务命令：    </p>
+<p>net stop myProjectServiceName</p>
+<p>myProjectService.exe uninstall</p>
 
     </div>
 
@@ -257,7 +265,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/simple/" rel="tag"># simple</a>
-              <a href="/tags/%E5%AE%89%E8%A3%85/" rel="tag"># 安装</a>
+              <a href="/tags/demo/" rel="tag"># demo</a>
           </div>
 
         
@@ -266,13 +274,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/07/22/sql-%E6%9F%A5%E5%87%BA%E4%B8%80%E5%BC%A0%E8%A1%A8%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%89%80%E6%9C%89%E8%AE%B0%E5%BD%95%E6%95%B0%E6%8D%AE/" rel="prev" title="sql 查出一张表中重复的所有记录数据">
-      <i class="fa fa-chevron-left"></i> sql 查出一张表中重复的所有记录数据
+    <a href="/2023/07/11/Springboot%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" rel="prev" title="Springboot接口加密解密">
+      <i class="fa fa-chevron-left"></i> Springboot接口加密解密
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/08/10/16-%E6%9D%A1-yyds-%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" rel="next" title="16 条 yyds 的代码规范">
-      16 条 yyds 的代码规范 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -331,7 +336,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#win10安装redis"><span class="nav-number">1.</span> <span class="nav-text">win10安装redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端使用redis"><span class="nav-number">1.3.</span> <span class="nav-text">客户端使用redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置密码"><span class="nav-number">1.4.</span> <span class="nav-text">设置密码</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
