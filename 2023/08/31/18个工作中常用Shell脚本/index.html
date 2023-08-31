@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/xm32_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/xm_favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1、检测两台服务器指定目录下的文件一致性12345678910111213141516171819202122232425262728#!&#x2F;bin&#x2F;bash######################################检测两台服务器指定目录下的文件一致性######################################通过对比两台服务器上文件的md5值，达到检测一致性的目的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="18个工作中常用Shell脚本">
+<meta property="og:url" content="http://yoursite.com/2023/08/31/18%E4%B8%AA%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8Shell%E8%84%9A%E6%9C%AC/index.html">
+<meta property="og:site_name" content="QWHS">
+<meta property="og:description" content="1、检测两台服务器指定目录下的文件一致性12345678910111213141516171819202122232425262728#!&#x2F;bin&#x2F;bash######################################检测两台服务器指定目录下的文件一致性######################################通过对比两台服务器上文件的md5值，达到检测一致性的目的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-31T01:58:55.000Z">
+<meta property="article:modified_time" content="2023-08-31T02:20:57.038Z">
+<meta property="article:author" content="宁中老程">
+<meta property="article:tag" content="simple">
+<meta property="article:tag" content="脚本">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2023/08/31/18%E4%B8%AA%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8Shell%E8%84%9A%E6%9C%AC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>18个工作中常用Shell脚本 | QWHS</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">QWHS</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">纸上得来终觉浅</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/08/31/18%E4%B8%AA%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8Shell%E8%84%9A%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pao.gif">
+      <meta itemprop="name" content="宁中老程">
+      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QWHS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          18个工作中常用Shell脚本
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-31 09:58:55 / 修改时间：10:20:57" itemprop="dateCreated datePublished" datetime="2023-08-31T09:58:55+08:00">2023-08-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1、检测两台服务器指定目录下的文件一致性"><a href="#1、检测两台服务器指定目录下的文件一致性" class="headerlink" title="1、检测两台服务器指定目录下的文件一致性"></a>1、检测两台服务器指定目录下的文件一致性</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">####################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">检测两台服务器指定目录下的文件一致性</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">####################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">通过对比两台服务器上文件的md5值，达到检测一致性的目的</span></span><br><span class="line">dir=/data/web</span><br><span class="line">b_ip=192.168.88.10</span><br><span class="line"><span class="meta">#</span><span class="bash">将指定目录下的文件全部遍历出来并作为md5sum命令的参数，进而得到所有文件的md5值，并写入到指定文件中</span></span><br><span class="line">find $dir -type f|xargs md5sum &gt; /tmp/md5_a.txt</span><br><span class="line">ssh $b_ip "find $dir -type f|xargs md5sum &gt; /tmp/md5_b.txt"</span><br><span class="line">scp $b_ip:/tmp/md5_b.txt /tmp</span><br><span class="line"><span class="meta">#</span><span class="bash">将文件名作为遍历对象进行一一比对</span></span><br><span class="line">for f in `awk '&#123;print 2&#125; /tmp/md5_a.txt'`</span><br><span class="line">do</span><br><span class="line">    #以a机器为标准，当b机器不存在遍历对象中的文件时直接输出不存在的结果</span><br><span class="line">    if grep -qw "$f" /tmp/md5_b.txt</span><br><span class="line">    then</span><br><span class="line">        md5_a=`grep -w "$f" /tmp/md5_a.txt|awk '&#123;print 1&#125;'`</span><br><span class="line">        md5_b=`grep -w "$f" /tmp/md5_b.txt|awk '&#123;print 1&#125;'`</span><br><span class="line">        #当文件存在时，如果md5值不一致则输出文件改变的结果</span><br><span class="line">        if [ $md5_a != $md5_b ]</span><br><span class="line">        then</span><br><span class="line">            echo "$f changed."</span><br><span class="line">        fi</span><br><span class="line">    else</span><br><span class="line">        echo "$f deleted."</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、定时清空文件内容，定时记录文件大小"><a href="#2、定时清空文件内容，定时记录文件大小" class="headerlink" title="2、定时清空文件内容，定时记录文件大小"></a>2、定时清空文件内容，定时记录文件大小</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每小时执行一次脚本（任务计划），当时间为0点或12点时，将目标目录下的所有文件内</span></span><br><span class="line"><span class="meta">#</span><span class="bash">容清空，但不删除文件，其他时间则只统计各个文件的大小，一个文件一行，输出到以时<span class="comment">#间和日期命名的文件中，需要考虑目标目录下二级、三级等子目录的文件</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############################################################</span></span></span><br><span class="line">logfile=/tmp/`date +%H-%F`.log</span><br><span class="line">n=`date +%H`</span><br><span class="line">if [ $n -eq 00 ] || [ $n -eq 12 ]</span><br><span class="line">then</span><br><span class="line">    #通过for循环，以find命令作为遍历条件，将目标目录下的所有文件进行遍历并做相应操作</span><br><span class="line">    for i in `find /data/log/ -type f`</span><br><span class="line">    do</span><br><span class="line">        true &gt; $i</span><br><span class="line">    done</span><br><span class="line">else</span><br><span class="line">    for i in `find /data/log/ -type f`</span><br><span class="line">    do</span><br><span class="line">        du -sh $i &gt;&gt; $logfile</span><br><span class="line">    done</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、检测网卡流量，并按规定格式记录在日志中"><a href="#3、检测网卡流量，并按规定格式记录在日志中" class="headerlink" title="3、检测网卡流量，并按规定格式记录在日志中"></a>3、检测网卡流量，并按规定格式记录在日志中</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">######################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">检测网卡流量，并按规定格式记录在日志中</span></span><br><span class="line"><span class="meta">#</span><span class="bash">规定一分钟记录一次</span></span><br><span class="line"><span class="meta">#</span><span class="bash">日志格式如下所示:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2019-08-12 20:40</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ens33 input: 1234bps</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ens33 output: 1235bps</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#####################################################3</span></span></span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    #设置语言为英文，保障输出结果是英文，否则会出现bug</span><br><span class="line">    LANG=en</span><br><span class="line">    logfile=/tmp/`date +%d`.log</span><br><span class="line">    #将下面执行的命令结果输出重定向到logfile日志中</span><br><span class="line">    exec &gt;&gt; $logfile</span><br><span class="line">    date +"%F %H:%M"</span><br><span class="line">    #sar命令统计的流量单位为kb/s，日志格式为bps，因此要*1000*8</span><br><span class="line">    sar -n DEV 1 59|grep Average|grep ens33|awk '&#123;print $2,"\t","input:","\t",$5*1000*8,"bps","\n",$2,"\t","output:","\t",$6*1000*8,"bps"&#125;'</span><br><span class="line">    echo "####################"</span><br><span class="line">    #因为执行sar命令需要59秒，因此不需要sleep</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、计算文档每行出现的数字个数，并计算整个文档的数字总数"><a href="#4、计算文档每行出现的数字个数，并计算整个文档的数字总数" class="headerlink" title="4、计算文档每行出现的数字个数，并计算整个文档的数字总数"></a>4、计算文档每行出现的数字个数，并计算整个文档的数字总数</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">########################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">计算文档每行出现的数字个数，并计算整个文档的数字总数</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#######################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">使用awk只输出文档行数（截取第一段）</span></span><br><span class="line">n=`wc -l a.txt|awk '&#123;print $1&#125;'`</span><br><span class="line">sum=0</span><br><span class="line"><span class="meta">#</span><span class="bash">文档中每一行可能存在空格，因此不能直接用文档内容进行遍历</span></span><br><span class="line">for i in `seq 1 $n`</span><br><span class="line">do</span><br><span class="line">    #输出的行用变量表示时，需要用双引号</span><br><span class="line">    line=`sed -n "$i"p a.txt`</span><br><span class="line">    #wc -L选项，统计最长行的长度</span><br><span class="line">    n_n=`echo $line|sed s'/[^0-9]//'g|wc -L`</span><br><span class="line">    echo $n_n</span><br><span class="line">    sum=$[$sum+$n_n]</span><br><span class="line">done</span><br><span class="line">echo "sum:$sum"</span><br></pre></td></tr></table></figure>
+
+<p>杀死所有脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">if [ $# -ne 1 ]; then</span><br><span class="line">    echo "Usage: $0 filename"</span><br><span class="line">fi</span><br><span class="line">dir=$(dirname $1)</span><br><span class="line">file=$(basename $1)</span><br><span class="line">ftp -n -v &lt;&lt; EOF   # -n 自动登录</span><br><span class="line">open 192.168.1.10  # ftp服务器</span><br><span class="line">user admin password</span><br><span class="line">binary   # 设置ftp传输模式为二进制，避免MD5值不同或.tar.gz压缩包格式错误</span><br><span class="line">cd $dir</span><br><span class="line">get "$file"</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、从-FTP-服务器下载文件"><a href="#5、从-FTP-服务器下载文件" class="headerlink" title="5、从 FTP 服务器下载文件"></a>5、从 FTP 服务器下载文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash  </span></span><br><span class="line">if [ $# -ne 1 ]; then  </span><br><span class="line">    echo "Usage: $0 filename"  </span><br><span class="line">fi  </span><br><span class="line">dir=$(dirname $1)  </span><br><span class="line">file=$(basename $1)  </span><br><span class="line">ftp -n -v &lt;&lt; EOF   # -n 自动登录  </span><br><span class="line">open 192.168.1.10  # ftp服务器  </span><br><span class="line">user admin password  </span><br><span class="line">binary   # 设置ftp传输模式为二进制，避免MD5值不同或.tar.gz压缩包格式错误  </span><br><span class="line">cd $dir  </span><br><span class="line">get "$file"  </span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="6、连续输入5个100以内的数字，统计和、最小和最大"><a href="#6、连续输入5个100以内的数字，统计和、最小和最大" class="headerlink" title="6、连续输入5个100以内的数字，统计和、最小和最大"></a>6、连续输入5个100以内的数字，统计和、最小和最大</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">COUNT=1</span><br><span class="line">SUM=0</span><br><span class="line">MIN=0</span><br><span class="line">MAX=100</span><br><span class="line">while [ $COUNT -le 5 ]; do</span><br><span class="line">    read -p "请输入1-10个整数：" INT</span><br><span class="line">    if [[ ! $INT =~ ^[0-9]+$ ]]; then</span><br><span class="line">        echo "输入必须是整数！"</span><br><span class="line">        exit 1</span><br><span class="line">        elif [[ $INT -gt 100 ]]; then</span><br><span class="line">        echo "输入必须是100以内！"</span><br><span class="line">        exit 1</span><br><span class="line">    fi</span><br><span class="line">    SUM=$(($SUM+$INT))</span><br><span class="line">    [ $MIN -lt $INT ] &amp;&amp; MIN=$INT</span><br><span class="line">    [ $MAX -gt $INT ] &amp;&amp; MAX=$INT</span><br><span class="line">    let COUNT++</span><br><span class="line">done</span><br><span class="line">echo "SUM: $SUM"</span><br><span class="line">echo "MIN: $MIN"</span><br><span class="line">echo "MAX: $MAX"</span><br></pre></td></tr></table></figure>
+
+<p>用户猜数字</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash  <span class="comment"># 脚本生成一个 100 以内的随机数,提示用户猜数字,根据用户的输入,提示用户猜对了,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 猜小了或猜大了,直至用户猜对脚本结束。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> RANDOM 为系统自带的系统变量,值为 0‐32767的随机数</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用取余算法将随机数变为 1‐100 的随机数num=$[RANDOM%100+1]<span class="built_in">echo</span> <span class="string">"<span class="variable">$num</span>"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用 <span class="built_in">read</span> 提示用户猜数字</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用 <span class="keyword">if</span> 判断用户猜数字的大小关系:‐eq(等于),‐ne(不等于),‐gt(大于),‐ge(大于等于),</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ‐lt(小于),‐le(小于等于)</span></span><br><span class="line"></span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    read -p "计算机生成了一个 1‐100 的随机数,你猜: " cai</span><br><span class="line">    if [ $cai -eq $num ]</span><br><span class="line">    then</span><br><span class="line">        echo "恭喜,猜对了"</span><br><span class="line">        exit</span><br><span class="line">    elif [ $cai -gt $num ]</span><br><span class="line">    then</span><br><span class="line">        echo "Oops,猜大了"</span><br><span class="line">    else</span><br><span class="line">        echo "Oops,猜小了"</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="7、监测-Nginx-访问日志-502-情况，并做相应动作"><a href="#7、监测-Nginx-访问日志-502-情况，并做相应动作" class="headerlink" title="7、监测 Nginx 访问日志 502 情况，并做相应动作"></a>7、监测 Nginx 访问日志 502 情况，并做相应动作</h2><p>假设服务器环境为 lnmp，近期访问经常出现 502 现象，且 502 错误在重启 php-fpm 服务后消失，因此需要编写监控脚本，一旦出现 502，则自动重启 php-fpm 服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">场景：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1.访问日志文件的路径：/data/<span class="built_in">log</span>/access.log</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2.脚本死循环，每10秒检测一次，10秒的日志条数为300条，出现502的比例不低于10%（30条）则需要重启php-fpm服务</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3.重启命令为：/etc/init.d/php-fpm restart</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##########################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">监测Nginx访问日志502情况，并做相应动作</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##########################################################</span></span></span><br><span class="line">log=/data/log/access.log</span><br><span class="line">N=30 #设定阈值</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    #查看访问日志的最新300条，并统计502的次数</span><br><span class="line">    err=`tail -n 300 $log |grep -c '502" '`</span><br><span class="line">    if [ $err -ge $N ]</span><br><span class="line">    then</span><br><span class="line">        /etc/init.d/php-fpm restart 2&gt; /dev/null</span><br><span class="line">        #设定60s延迟防止脚本bug导致无限重启php-fpm服务</span><br><span class="line">        sleep 60</span><br><span class="line">    fi</span><br><span class="line">    sleep 10</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="8、将结果分别赋值给变量"><a href="#8、将结果分别赋值给变量" class="headerlink" title="8、将结果分别赋值给变量"></a>8、将结果分别赋值给变量</h2><p>应用场景：希望将执行结果或者位置参数赋值给变量，以便后续使用。</p>
+<p><strong>方法1：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for i in $(echo "4 5 6"); do</span><br><span class="line">    eval a$i=$i</span><br><span class="line">done</span><br><span class="line">echo $a4 $a5 $a6</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法2：将位置参数192.168.1.1{1,2}拆分为到每个变量</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">num=0</span><br><span class="line">for i in $(eval echo $*);do   #eval将&#123;1,2&#125;分解为1 2</span><br><span class="line">    let num+=1</span><br><span class="line">    eval node$&#123;num&#125;="$i"</span><br><span class="line">done</span><br><span class="line">echo $node1 $node2 $node3</span><br><span class="line"><span class="meta">#</span><span class="bash"> bash a.sh 192.168.1.1&#123;1,2&#125;</span></span><br><span class="line">192.168.1.11 192.168.1.12</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法3：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr=(4 5 6)</span><br><span class="line">INDEX1=$(echo $&#123;arr[0]&#125;)</span><br><span class="line">INDEX2=$(echo $&#123;arr[1]&#125;)</span><br><span class="line">INDEX3=$(echo $&#123;arr[2]&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="9、批量修改文件名"><a href="#9、批量修改文件名" class="headerlink" title="9、批量修改文件名"></a>9、批量修改文件名</h2><p>示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> touch article_&#123;1..3&#125;.html  </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> lsarticle_1.html  article_2.html  article_3.html</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方法1：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for file in $(ls *html); do  </span><br><span class="line">    mv $file bbs_$&#123;file#*_&#125;  </span><br><span class="line">    # mv $file $(echo $file |sed -r 's/.*(_.*)/bbs\1/')  </span><br><span class="line">    # mv $file $(echo $file |echo bbs_$(cut -d_ -f2)</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法2：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for file in $(find . -maxdepth 1 -name "*html"); do  </span><br><span class="line">     mv $file bbs_$&#123;file#*_&#125;done</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法3：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> rename article bbs *.html</span></span><br></pre></td></tr></table></figure>
+
+<p>把一个文档前五行中包含字母的行删掉，同时删除6到10行包含的所有字母</p>
+<p>1）准备测试文件，文件名为2.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">第1行1234567不包含字母  </span><br><span class="line">第2行56789BBBBBB  </span><br><span class="line">第3行67890CCCCCCCC  </span><br><span class="line">第4行78asdfDDDDDDDDD  </span><br><span class="line">第5行123456EEEEEEEE  </span><br><span class="line">第6行1234567ASDF  </span><br><span class="line">第7行56789ASDF  </span><br><span class="line">第8行67890ASDF  </span><br><span class="line">第9行78asdfADSF  </span><br><span class="line">第10行123456AAAA  </span><br><span class="line">第11行67890ASDF  </span><br><span class="line">第12行78asdfADSF  </span><br><span class="line">第13行123456AAAA</span><br></pre></td></tr></table></figure>
+
+<p>2）脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash  </span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##############################################################  </span></span></span><br><span class="line">把一个文档前五行中包含字母的行删掉，同时删除6到10行包含的所有字母  </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################  </span></span></span><br><span class="line">sed -n '1,5'p 2.txt |sed '/[a-zA-Z]/'d  </span><br><span class="line">sed -n '6,10'p 2.txt |sed s'/[a-zA-Z]//'g  </span><br><span class="line">sed -n '11,$'p 2.txt  </span><br><span class="line"><span class="meta">#</span><span class="bash">最终结果只是在屏幕上打印结果，如果想直接更改文件，可将输出结果写入临时文件中，再替换2.txt或者使用-i选项</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="10、统计当前目录中以-html-结尾的文件总大小"><a href="#10、统计当前目录中以-html-结尾的文件总大小" class="headerlink" title="10、统计当前目录中以 .html 结尾的文件总大小"></a>10、统计当前目录中以 .html 结尾的文件总大小</h2><p><strong>方法1：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> find . -name <span class="string">"*.html"</span> -<span class="built_in">exec</span> du -k &#123;&#125; \; |awk <span class="string">'&#123;sum+=$1&#125;END&#123;print sum&#125;'</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方法2：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for size in $(ls -l *.html |awk '&#123;print $5&#125;'); do  </span><br><span class="line">    sum=$(($sum+$size))  </span><br><span class="line">done  </span><br><span class="line">echo $sum</span><br></pre></td></tr></table></figure>
+
+<h2 id="11、扫描主机端口状态"><a href="#11、扫描主机端口状态" class="headerlink" title="11、扫描主机端口状态"></a>11、扫描主机端口状态</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">HOST=$1</span><br><span class="line">PORT="22 25 80 8080"</span><br><span class="line">for PORT in $PORT; do</span><br><span class="line">    if echo &amp;&gt;/dev/null &gt; /dev/tcp/$HOST/$PORT; then</span><br><span class="line">        echo "$PORT open"</span><br><span class="line">    else</span><br><span class="line">        echo "$PORT close"</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>用 shell 打印示例语句中字母数小于 6 的单词</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">示例语句：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Bash also interprets a number of multi-character options.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">shell打印示例语句中字母数小于6的单词</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################</span></span></span><br><span class="line">for s in Bash also interprets a number of multi-character options.</span><br><span class="line">do</span><br><span class="line">    n=`echo $s|wc -c`</span><br><span class="line">    if [ $n -lt 6 ]</span><br><span class="line">    then</span><br><span class="line">        echo $s</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="12、输入数字运行相应命令"><a href="#12、输入数字运行相应命令" class="headerlink" title="12、输入数字运行相应命令"></a>12、输入数字运行相应命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">输入数字运行相应命令</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################</span></span></span><br><span class="line">echo "*cmd menu* 1-date 2-ls 3-who 4-pwd 0-exit "</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    #捕获用户键入值</span><br><span class="line">    read -p "please input number :" n</span><br><span class="line">    n1=`echo $n|sed s'/[0-9]//'g`</span><br><span class="line">    #空输入检测</span><br><span class="line">    if [ -z "$n" ]</span><br><span class="line">    then</span><br><span class="line">        continue</span><br><span class="line">    fi</span><br><span class="line">    #非数字输入检测</span><br><span class="line">    if [ -n "$n1" ]</span><br><span class="line">    then</span><br><span class="line">        exit 0</span><br><span class="line">    fi</span><br><span class="line">    break</span><br><span class="line">done</span><br><span class="line">case $n in</span><br><span class="line">    1)</span><br><span class="line">        date</span><br><span class="line">    ;;</span><br><span class="line">    2)</span><br><span class="line">        ls</span><br><span class="line">    ;;</span><br><span class="line">    3)</span><br><span class="line">        who</span><br><span class="line">    ;;</span><br><span class="line">    4)</span><br><span class="line">        pwd</span><br><span class="line">    ;;</span><br><span class="line">    0)</span><br><span class="line">        break</span><br><span class="line">    ;;</span><br><span class="line">    #输入数字非1-4的提示</span><br><span class="line">    *)</span><br><span class="line">        echo "please input number is [1-4]"</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<h2 id="13、Expect-实现-SSH-免交互执行命令"><a href="#13、Expect-实现-SSH-免交互执行命令" class="headerlink" title="13、Expect 实现 SSH 免交互执行命令"></a>13、Expect 实现 SSH 免交互执行命令</h2><p>Expect是一个自动交互式应用程序的工具，如telnet，ftp，passwd等。</p>
+<p>需先安装expect软件包。</p>
+<p><strong>方法1：EOF 标准输出作为 expect 标准输入</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">USER=root</span><br><span class="line">PASS=123.com</span><br><span class="line">IP=192.168.1.120</span><br><span class="line">expect &lt;&lt; EOFset timeout 30spawn ssh $USER@$IP   expect &#123;    "(yes/no)" &#123;send "yes\r"; exp_continue&#125;    "password:" &#123;send "$PASS\r"&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect "$USER@*"  &#123;send "$1\r"&#125;</span><br><span class="line">expect "$USER@*"  &#123;send "exit\r"&#125;</span><br><span class="line">expect eof</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法2：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">USER=root</span><br><span class="line">PASS=123.com</span><br><span class="line">IP=192.168.1.120</span><br><span class="line">expect -c "</span><br><span class="line">    spawn ssh $USER@$IP</span><br><span class="line">    expect &#123;</span><br><span class="line">        \"(yes/no)\" &#123;send \"yes\r\"; exp_continue&#125;</span><br><span class="line">        \"password:\" &#123;send \"$PASS\r\"; exp_continue&#125;</span><br><span class="line">        \"$USER@*\" &#123;send \"df -h\r exit\r\"; exp_continue&#125;</span><br><span class="line">&#125;"</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法3：将expect脚本独立出来</strong></p>
+<p>登录脚本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat login.exp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/expect</span></span><br><span class="line">set ip [lindex $argv 0]</span><br><span class="line">set user [lindex $argv 1]</span><br><span class="line">set passwd [lindex $argv 2]</span><br><span class="line">set cmd [lindex $argv 3]</span><br><span class="line">if &#123; $argc != 4 &#125; &#123;</span><br><span class="line">    puts "Usage: expect login.exp ip user passwd"</span><br><span class="line">    exit 1</span><br><span class="line">&#125;</span><br><span class="line">set timeout 30</span><br><span class="line">spawn ssh $user@$ip</span><br><span class="line">expect &#123;</span><br><span class="line">    "(yes/no)" &#123;send "yes\r"; exp_continue&#125;</span><br><span class="line">    "password:" &#123;send "$passwd\r"&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect "$user@*"  &#123;send "$cmd\r"&#125;</span><br><span class="line">expect "$user@*"  &#123;send "exit\r"&#125;</span><br><span class="line">expect eof</span><br></pre></td></tr></table></figure>
+
+<p>执行命令脚本：写个循环可以批量操作多台服务器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">HOST_INFO=user_info.txt</span><br><span class="line">for ip in $(awk '&#123;print $1&#125;' $HOST_INFO)</span><br><span class="line">do</span><br><span class="line">    user=$(awk -v I="$ip" 'I==$1&#123;print $2&#125;' $HOST_INFO)</span><br><span class="line">    pass=$(awk -v I="$ip" 'I==$1&#123;print $3&#125;' $HOST_INFO)</span><br><span class="line">    expect login.exp $ip $user $pass $1</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>Linux主机SSH连接信息：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat user_info.txt  </span></span><br><span class="line">192.168.1.120 root 123456</span><br></pre></td></tr></table></figure>
+
+<p>创建10个用户，并分别设置密码，密码要求10位且包含大小写字母以及数字，最后需要把每个用户的密码存在指定文件中 。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">创建10个用户，并分别设置密码，密码要求10位且包含大小写字母以及数字</span></span><br><span class="line"><span class="meta">#</span><span class="bash">最后需要把每个用户的密码存在指定文件中</span></span><br><span class="line"><span class="meta">#</span><span class="bash">前提条件：安装mkpasswd命令</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#############################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">生成10个用户的序列（00-09）</span></span><br><span class="line">for u in `seq -w 0 09`</span><br><span class="line">do</span><br><span class="line">    #创建用户</span><br><span class="line">    useradd user_$u</span><br><span class="line">    #生成密码</span><br><span class="line">    p=`mkpasswd -s 0 -l 10`</span><br><span class="line">    #从标准输入中读取密码进行修改（不安全）</span><br><span class="line">    echo $p|passwd --stdin user_$u</span><br><span class="line">    #常规修改密码</span><br><span class="line">    echo -e "$p\n$p"|passwd user_$u</span><br><span class="line">    #将创建的用户及对应的密码记录到日志文件中</span><br><span class="line">    echo "user_$u $p" &gt;&gt; /tmp/userpassword</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="14、监控-httpd-的进程数，根据监控情况做相应处理"><a href="#14、监控-httpd-的进程数，根据监控情况做相应处理" class="headerlink" title="14、监控 httpd 的进程数，根据监控情况做相应处理"></a>14、监控 httpd 的进程数，根据监控情况做相应处理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##############################################################################################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">需求：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1.每隔10s监控httpd的进程数，若进程数大于等于500，则自动重启Apache服务，并检测服务是否重启成功</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2.若未成功则需要再次启动，若重启5次依旧没有成功，则向管理员发送告警邮件，并退出检测</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3.如果启动成功，则等待1分钟后再次检测httpd进程数，若进程数正常，则恢复正常检测（10s一次），否则放弃重启并向管理员发送告警邮件，并退出检测</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">##############################################################################################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">计数器函数</span></span><br><span class="line">check_service()</span><br><span class="line">&#123;</span><br><span class="line">    j=0</span><br><span class="line">    for i in `seq 1 5`</span><br><span class="line">    do</span><br><span class="line">        #重启Apache的命令</span><br><span class="line">        /usr/local/apache2/bin/apachectl restart 2&gt; /var/log/httpderr.log</span><br><span class="line">        #判断服务是否重启成功</span><br><span class="line">        if [ $? -eq 0 ]</span><br><span class="line">        then</span><br><span class="line">            break</span><br><span class="line">        else</span><br><span class="line">            j=$[$j+1]</span><br><span class="line">        fi</span><br><span class="line">        #判断服务是否已尝试重启5次</span><br><span class="line">        if [ $j -eq 5 ]</span><br><span class="line">        then</span><br><span class="line">            mail.py</span><br><span class="line">            exit</span><br><span class="line">        fi</span><br><span class="line">    done</span><br><span class="line">&#125;</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    n=`pgrep -l httpd|wc -l`</span><br><span class="line">    #判断httpd服务进程数是否超过500</span><br><span class="line">    if [ $n -gt 500 ]</span><br><span class="line">    then</span><br><span class="line">        /usr/local/apache2/bin/apachectl restart</span><br><span class="line">        if [ $? -ne 0 ]</span><br><span class="line">        then</span><br><span class="line">            check_service</span><br><span class="line">        else</span><br><span class="line">            sleep 60</span><br><span class="line">            n2=`pgrep -l httpd|wc -l`</span><br><span class="line">            #判断重启后是否依旧超过500</span><br><span class="line">            if [ $n2 -gt 500 ]</span><br><span class="line">            then</span><br><span class="line">                mail.py</span><br><span class="line">                exit</span><br><span class="line">            fi</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">    #每隔10s检测一次</span><br><span class="line">    sleep 10</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="15、批量修改服务器用户密码"><a href="#15、批量修改服务器用户密码" class="headerlink" title="15、批量修改服务器用户密码"></a>15、批量修改服务器用户密码</h2><p>Linux主机SSH连接信息：旧密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat old_pass.txt   </span></span><br><span class="line">192.168.18.217  root    123456     22  </span><br><span class="line">192.168.18.218  root    123456     22</span><br></pre></td></tr></table></figure>
+
+<p>内容格式：IP User Password Port</p>
+<p>SSH远程修改密码脚本：新密码随机生成</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash  </span></span><br><span class="line">OLD_INFO=old_pass.txt  </span><br><span class="line">NEW_INFO=new_pass.txt  </span><br><span class="line">for IP in $(awk '/^[^#]/&#123;print $1&#125;' $OLD_INFO); do  </span><br><span class="line">    USER=$(awk -v I=$IP 'I==$1&#123;print $2&#125;' $OLD_INFO)  </span><br><span class="line">    PASS=$(awk -v I=$IP 'I==$1&#123;print $3&#125;' $OLD_INFO)  </span><br><span class="line">    PORT=$(awk -v I=$IP 'I==$1&#123;print $4&#125;' $OLD_INFO)  </span><br><span class="line">    NEW_PASS=$(mkpasswd -l 8)  # 随机密码  </span><br><span class="line">    echo "$IP   $USER   $NEW_PASS   $PORT" &gt;&gt; $NEW_INFO  </span><br><span class="line">    expect -c "  </span><br><span class="line">    spawn ssh -p$PORT $USER@$IP  </span><br><span class="line">    set timeout 2  </span><br><span class="line">    expect &#123;  </span><br><span class="line">        \"(yes/no)\" &#123;send \"yes\r\";exp_continue&#125;  </span><br><span class="line">        \"password:\" &#123;send \"$PASS\r\";exp_continue&#125;  </span><br><span class="line">        \"$USER@*\" &#123;send \"echo \'$NEW_PASS\' |passwd --stdin $USER\r exit\r\";exp_continue&#125;  </span><br><span class="line">    &#125;"  </span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>生成新密码文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat new_pass.txt   </span></span><br><span class="line">192.168.18.217  root    n8wX3mU%      22  </span><br><span class="line">192.168.18.218  root    c87;ZnnL      22</span><br></pre></td></tr></table></figure>
+
+<h2 id="16、iptables-自动屏蔽访问网站频繁的IP"><a href="#16、iptables-自动屏蔽访问网站频繁的IP" class="headerlink" title="16、iptables 自动屏蔽访问网站频繁的IP"></a>16、iptables 自动屏蔽访问网站频繁的IP</h2><p>场景：恶意访问,安全防范</p>
+<p><strong>1）屏蔽每分钟访问超过200的IP</strong></p>
+<p>方法1：根据访问日志（Nginx为例）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">DATE=$(date +%d/%b/%Y:%H:%M)</span><br><span class="line">ABNORMAL_IP=$(tail -n5000 access.log |grep $DATE |awk '&#123;a[$1]++&#125;END&#123;for(i in a)if(a[i]&gt;100)print i&#125;')</span><br><span class="line"><span class="meta">#</span><span class="bash">先tail防止文件过大，读取慢，数字可调整每分钟最大的访问量。awk不能直接过滤日志，因为包含特殊字符。</span></span><br><span class="line">for IP in $ABNORMAL_IP; do</span><br><span class="line">    if [ $(iptables -vnL |grep -c "$IP") -eq 0 ];</span><br><span class="line">    then</span><br><span class="line">        iptables -I INPUT -s $IP -j DROP</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>方法2：通过TCP建立的连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">ABNORMAL_IP=$(netstat -an |awk '$4~/:80$/ &amp;&amp; $6~/ESTABLISHED/&#123;gsub(/:[0-9]+/,"",$5);&#123;a[$5]++&#125;&#125;END&#123;for(i in a)if(a[i]&gt;100)print i&#125;')</span><br><span class="line"><span class="meta">#</span><span class="bash">gsub是将第五列（客户端IP）的冒号和端口去掉</span></span><br><span class="line">for IP in $ABNORMAL_IP; do</span><br><span class="line">    if [ $(iptables -vnL |grep -c "$IP") -eq 0 ]; then</span><br><span class="line">        iptables -I INPUT -s $IP -j DROP</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><strong>2）屏蔽每分钟SSH尝试登录超过10次的IP</strong></p>
+<p>方法1：通过lastb获取登录状态:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">DATE=$(date +"%a %b %e %H:%M") #星期月天时分  %e单数字时显示7，而%d显示07</span><br><span class="line">ABNORMAL_IP=$(lastb |grep "$DATE" |awk '&#123;a[$3]++&#125;END&#123;for(i in a)if(a[i]&gt;10)print i&#125;')</span><br><span class="line">for IP in $ABNORMAL_IP; do</span><br><span class="line">    if [ $(iptables -vnL |grep -c "$IP") -eq 0 ];</span><br><span class="line">    then</span><br><span class="line">        iptables -I INPUT -s $IP -j DROP</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/simple/" rel="tag"># simple</a>
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/19/springboot%E5%9C%A8Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%81%9A%E6%88%90%E6%9C%8D%E5%8A%A1/" rel="prev" title="springboot在Windows服务器部署做成服务">
+      <i class="fa fa-chevron-left"></i> springboot在Windows服务器部署做成服务
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、检测两台服务器指定目录下的文件一致性"><span class="nav-number">1.</span> <span class="nav-text">1、检测两台服务器指定目录下的文件一致性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、定时清空文件内容，定时记录文件大小"><span class="nav-number">2.</span> <span class="nav-text">2、定时清空文件内容，定时记录文件大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、检测网卡流量，并按规定格式记录在日志中"><span class="nav-number">3.</span> <span class="nav-text">3、检测网卡流量，并按规定格式记录在日志中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、计算文档每行出现的数字个数，并计算整个文档的数字总数"><span class="nav-number">4.</span> <span class="nav-text">4、计算文档每行出现的数字个数，并计算整个文档的数字总数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、从-FTP-服务器下载文件"><span class="nav-number">5.</span> <span class="nav-text">5、从 FTP 服务器下载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、连续输入5个100以内的数字，统计和、最小和最大"><span class="nav-number">6.</span> <span class="nav-text">6、连续输入5个100以内的数字，统计和、最小和最大</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、监测-Nginx-访问日志-502-情况，并做相应动作"><span class="nav-number">7.</span> <span class="nav-text">7、监测 Nginx 访问日志 502 情况，并做相应动作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、将结果分别赋值给变量"><span class="nav-number">8.</span> <span class="nav-text">8、将结果分别赋值给变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、批量修改文件名"><span class="nav-number">9.</span> <span class="nav-text">9、批量修改文件名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10、统计当前目录中以-html-结尾的文件总大小"><span class="nav-number">10.</span> <span class="nav-text">10、统计当前目录中以 .html 结尾的文件总大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11、扫描主机端口状态"><span class="nav-number">11.</span> <span class="nav-text">11、扫描主机端口状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12、输入数字运行相应命令"><span class="nav-number">12.</span> <span class="nav-text">12、输入数字运行相应命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13、Expect-实现-SSH-免交互执行命令"><span class="nav-number">13.</span> <span class="nav-text">13、Expect 实现 SSH 免交互执行命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14、监控-httpd-的进程数，根据监控情况做相应处理"><span class="nav-number">14.</span> <span class="nav-text">14、监控 httpd 的进程数，根据监控情况做相应处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15、批量修改服务器用户密码"><span class="nav-number">15.</span> <span class="nav-text">15、批量修改服务器用户密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16、iptables-自动屏蔽访问网站频繁的IP"><span class="nav-number">16.</span> <span class="nav-text">16、iptables 自动屏蔽访问网站频繁的IP</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="宁中老程"
+      src="/images/pao.gif">
+  <p class="site-author-name" itemprop="name">宁中老程</p>
+  <div class="site-description" itemprop="description">CV工程师，面向搜索引擎编程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宁中老程</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":false},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
