@@ -20,27 +20,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="CV工程师，面向搜索引擎编程">
-<meta property="og:type" content="website">
-<meta property="og:title" content="QWHS">
-<meta property="og:url" content="http://yoursite.com/tags/mysql/index.html">
+  <meta name="description" content="1.root用户下将 kkFileView-4.0.0.tar.gz 上传到服务器 ，使用命令 tar -zxvf kkFileView-4.0.0.tar.gz 解压，开放 8012 端口 2.root用户下解压后进入 kkFileView-4.0.0&#x2F;bin 目录，执行 .&#x2F;startup.sh 开始安装和启动，安装过程中会下载需要的组件需要输入y 3.安装字体。若不安装字体转化出的pdf文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos安装kkFileView文件预览服务">
+<meta property="og:url" content="http://yoursite.com/2024/06/04/centos%E5%AE%89%E8%A3%85kkFileView%E6%96%87%E4%BB%B6%E9%A2%84%E8%A7%88%E6%9C%8D%E5%8A%A1/index.html">
 <meta property="og:site_name" content="QWHS">
-<meta property="og:description" content="CV工程师，面向搜索引擎编程">
+<meta property="og:description" content="1.root用户下将 kkFileView-4.0.0.tar.gz 上传到服务器 ，使用命令 tar -zxvf kkFileView-4.0.0.tar.gz 解压，开放 8012 端口 2.root用户下解压后进入 kkFileView-4.0.0&#x2F;bin 目录，执行 .&#x2F;startup.sh 开始安装和启动，安装过程中会下载需要的组件需要输入y 3.安装字体。若不安装字体转化出的pdf文件">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-04T01:21:58.000Z">
+<meta property="article:modified_time" content="2024-06-04T03:03:19.719Z">
 <meta property="article:author" content="宁中老程">
-<meta property="article:tag" content="java">
-<meta property="article:tag" content="web">
-<meta property="article:tag" content="编程">
-<meta property="article:tag" content="开发者">
-<meta property="article:tag" content="程序猿">
-<meta property="article:tag" content="程序媛">
-<meta property="article:tag" content="编程">
-<meta property="article:tag" content="代码">
-<meta property="article:tag" content="开源">
-<meta property="article:tag" content="IT网站">
+<meta property="article:tag" content="simple">
+<meta property="article:tag" content="环境安装">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/tags/mysql/">
+<link rel="canonical" href="http://yoursite.com/2024/06/04/centos%E5%AE%89%E8%A3%85kkFileView%E6%96%87%E4%BB%B6%E9%A2%84%E8%A7%88%E6%9C%8D%E5%8A%A1/">
 
 
 <script id="page-configurations">
@@ -48,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: mysql | QWHS</title>
+  <title>centos安装kkFileView文件预览服务 | QWHS</title>
   
 
 
@@ -162,51 +156,108 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">mysql
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2024/06/04/centos%E5%AE%89%E8%A3%85kkFileView%E6%96%87%E4%BB%B6%E9%A2%84%E8%A7%88%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pao.gif">
+      <meta itemprop="name" content="宁中老程">
+      <meta itemprop="description" content="CV工程师，面向搜索引擎编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QWHS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          centos安装kkFileView文件预览服务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-06-04 09:21:58 / 修改时间：11:03:19" itemprop="dateCreated datePublished" datetime="2024-06-04T09:21:58+08:00">2024-06-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+        <h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><p>root用户下将 kkFileView-4.0.0.tar.gz 上传到服务器 ，使用命令 tar -zxvf kkFileView-4.0.0.tar.gz 解压，开放 8012 端口</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><p>root用户下解压后进入 kkFileView-4.0.0/bin 目录，执行 ./startup.sh 开始安装和启动，安装过程中会下载需要的组件需要输入y</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h2><p>安装字体。若不安装字体转化出的pdf文件可能会因为缺少字体乱码。字体下载（链接：<a href="http://kkfileview.keking.cn/fonts.zip）或者" target="_blank" rel="noopener">http://kkfileview.keking.cn/fonts.zip）或者</a> 百度云下载（链接：<a href="https://pan.baidu.com/s/1TESdE8Xi02NqtnnKlp0BvQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1TESdE8Xi02NqtnnKlp0BvQ</a> 提取码：lfw5 ）</p>
+<p>将下载的字体fonts.zip上传到 /usr/share/fonts 目录解压后执行命令 mkfontscale</p>
+<p>若 mkfontscale 提示没有命令则先 yum install mkfontscale 安装命令</p>
+<p>再分别依次执行 mkfontscale、mkfontdir、fc-cache 命令</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4."></a>4.</h2><p> 安装完成后 kkFileView-4.0.0/bin/ 目录下使用命令 ./showlog.sh 查看日志</p>
+<p>如果出现： 【kkFileView 服务启动完成，耗时:5.99157928s，演示页请访问: <a href="http://127.0.0.1:8012" target="_blank" rel="noopener">http://127.0.0.1:8012</a> 】，则表示安装启动成功。</p>
+<h2 id="5"><a href="#5" class="headerlink" title="5."></a>5.</h2><p>如果日志提示报错信息【找不到office组件，请确认’office.home’配置是否有误 】，则需要下载LibreOffice组件安装。</p>
+<p>LibreOffice下载 (链接：<a href="https://downloadarchive.documentfoundation.org/libreoffice/old/7.1.4.2/rpm/x86_64/" target="_blank" rel="noopener">https://downloadarchive.documentfoundation.org/libreoffice/old/7.1.4.2/rpm/x86_64/</a>)</p>
+<p>或者</p>
+<p>百度云下载（链接：<a href="https://pan.baidu.com/s/1aRY66KlzZD9UJSo8Gjf2Fg" target="_blank" rel="noopener">https://pan.baidu.com/s/1aRY66KlzZD9UJSo8Gjf2Fg</a> 提取码：6exh ）</p>
+<p>将 LibreOffice_7.1.4.2_Linux_x86-64_rpm.tar.gz 上传服务器，然后解压后进入RPMS目录执行 yum localinstall *.rpm 进行安装</p>
+<h2 id="6"><a href="#6" class="headerlink" title="6."></a>6.</h2><p>如果日志提示报错信息【Caused by: java.lang.IllegalStateException: a process with acceptString ‘socket,host=127.0.0.1,port=2001’ is already running】</p>
+<p>（1）用 ps -ef|grep java 命令查询出Java相关运行的进程，然后关闭kkFileView相关的进程，</p>
+<p>并查看2001和2002端口的进程并关闭该进程。然后再执行 ./startup.sh 启动并查看日志。</p>
+<p>（2）如果是安装在Linux上并且关闭了kkFileView相关的进程以及2001和2002端口，启动日志任</p>
+<p>然存在该问题，那么可能是你远程连接服务器的软件导致的这个问题，改用window的cmd，</p>
+<p>用ssh连接服务器启动程序尝试</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-03-08T15:28:05+08:00"
-              content="2023-03-08">
-          03-08
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/simple/" rel="tag"># simple</a>
+              <a href="/tags/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" rel="tag"># 环境安装</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/03/08/MySQL-linux%E4%B8%8Bmysql%E6%95%B0%E6%8D%AE%E5%BA%93%E8%87%AA%E5%8A%A8%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD/" itemprop="url">
-            <span itemprop="name">MySQL_linux下mysql数据库自动定时备份</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/10/sql%E5%B0%86%E7%A7%92%E8%BD%AC%E6%8D%A2%E6%88%90%E6%97%B6%E5%88%86%E7%A7%92%E6%A0%BC%E5%BC%8F/" rel="prev" title="sql将秒转换成时分秒格式">
+      <i class="fa fa-chevron-left"></i> sql将秒转换成时分秒格式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -259,6 +310,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3"><span class="nav-number">3.</span> <span class="nav-text">3.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">4.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5"><span class="nav-number">5.</span> <span class="nav-text">5.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6"><span class="nav-number">6.</span> <span class="nav-text">6.</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
